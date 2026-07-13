@@ -75,7 +75,7 @@ jobs:
           echo "✅ Build validated — $(find ./public -type f | wc -l) files generated"
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: ./public
 
