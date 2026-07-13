@@ -1,10 +1,10 @@
-baseURL = 'https://votre-username.github.io/mon-licenciement-blog'
-defaultContentLanguage = 'fr'
-languageCode = 'fr-fr'
-title = 'Mon Licenciement'
-theme = 'PaperMod'
+baseURL = "{{ env \"HUGO_BASEURL\" | default \"https://example.com\" }}"
+defaultContentLanguage = "fr"
+languageCode = "fr-fr"
+title = "Mon Licenciement"
+theme = "PaperMod"
 
-copyright = '© 2026 - Tous droits réservés'
+copyright = "© {{ now.Format \"2006\" }} - Tous droits réservés"
 
 paginate = 5
 
@@ -75,7 +75,7 @@ pygmentsUseClasses = true
 [params]
   env = "production"
   description = "Récit complet de mon parcours de licenciement, de l'avertissement à la décision de justice."
-  author = "Votre Nom"
+  author = "{{ env \"HUGO_AUTHOR\" | default \"Votre Nom\" }}"
 
   # PaperMod settings
   defaultTheme = "auto"
@@ -97,7 +97,7 @@ pygmentsUseClasses = true
 
   # Cusdis Comments
   # Remplacez par votre APP_ID après inscription sur https://cusdis.com
-  cusdisAppId = "YOUR_CUSDIS_APP_ID"
+  cusdisAppId = "{{ env \"CUSDIS_APP_ID\" | default \"\" }}"
 
   # SEO
   [params.assets]
@@ -131,10 +131,10 @@ pygmentsUseClasses = true
   # Social icons
   [[params.socialIcons]]
     name = "github"
-    url = "https://github.com/votre-username"
+    url = "{{ env \"GITHUB_URL\" | default \"https://github.com/your-username\" }}"
   [[params.socialIcons]]
     name = "email"
-    url = "mailto:votre@email.com"
+    url = "{{ env \"EMAIL_URL\" | default \"mailto:your@email.com\" }}"
 
   # Search
   [params.fuseOpts]
@@ -173,3 +173,8 @@ pygmentsUseClasses = true
     guessSyntax = true
     lineNos = true
     style = "monokai"
+
+# Hugo Modules
+[module]
+  [[module.imports]]
+    path = "github.com/adityatelange/hugo-PaperMod"

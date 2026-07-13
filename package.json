@@ -1,0 +1,30 @@
+{
+  "name": "mon-licenciement-blog",
+  "version": "1.0.0",
+  "description": "Blog statique Hugo documentant un parcours de licenciement",
+  "private": true,
+  "scripts": {
+    "build": "hugo --gc --minify",
+    "build:preview": "hugo --gc --minify --buildDrafts --buildFuture",
+    "dev": "hugo server -D --bind 0.0.0.0 --port 1313",
+    "check": "hugo --gc --minify --printPathWarnings",
+    "fmt": "hugo mod fmt"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "volta": {
+    "node": "20.18.0"
+  },
+  "packageManager": "npm@10.8.2",
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": [
+    "hugo",
+    "blog",
+    "static-site",
+    "papermod"
+  ],
+  "author": "Votre Nom",
+  "license": "MIT"
+}

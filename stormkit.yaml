@@ -1,0 +1,6 @@
+buildCommand: hugo --gc --minify
+publishDir: public
+environment:
+  HUGO_VERSION: "0.139.0"
+  HUGO_ENV: production
+  HUGO_ENVIRONMENT: production

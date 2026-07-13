@@ -1,0 +1,57 @@
+name: Dependabot Auto-Merge
+
+on:
+  pull_request:
+    types:
+      - labeled
+      - synchronize
+      - opened
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      # Dockerfile.hugo mis à jour → propager dans tous les configs
+      - name: Propagate Hugo version to all configs
+        if: steps.metadata.outputs.package-ecosystem == 'docker'
+        run: |
+          HUGO_VER=$(grep 'klakegg/hugo:' Dockerfile.hugo | sed 's/.*hugo:\([^-]*\).*/\1/')
+          echo "Hugo $HUGO_VER → propagating..."
+          sed -i "s/HUGO_VERSION: \".*\"/HUGO_VERSION: \"$HUGO_VER\"/" .github/workflows/hugo.yml
+          sed -i "s/HUGO_VERSION: \".*\"/HUGO_VERSION: \"$HUGO_VER\"/" .github/workflows/pr-check.yml
+          sed -i "s/HUGO_VERSION = \".*\"/HUGO_VERSION = \"$HUGO_VER\"/" netlify.toml
+          sed -i "s/HUGO_VERSION = \".*\"/HUGO_VERSION = \"$HUGO_VER\"/" wrangler.toml
+          sed -i "s/klakegg\/hugo:[^-]*/klakegg\/hugo:$HUGO_VER/" Dockerfile.hugo
+          git config user.name "dependabot[bot]"
+          git config user.email "dependabot[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "ci: propagate Hugo $HUGO_VER"
+          git push
+
+      - name: Auto-approve
+        run: gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Auto-merge when CI passes
+        run: gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

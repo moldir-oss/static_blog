@@ -1,0 +1,71 @@
+# Netlify Configuration for Hugo Site
+# This file configures Netlify to build and deploy your Hugo site
+
+[build]
+  # Build command - Hugo builds to ./public directory
+  command = "hugo --gc --minify"
+  # Publish directory - where Netlify looks for built files
+  publish = "public"
+
+[build.environment]
+  # Hugo version to use (must match your local version)
+  HUGO_VERSION = "0.139.0"
+  # Enable Hugo extended features (SCSS, etc.)
+  HUGO_ENABLEGITINFO = "true"
+  # Production environment
+  HUGO_ENV = "production"
+  HUGO_ENVIRONMENT = "production"
+  # Use Go modules for theme (PaperMod)
+  GOFLAGS = "-mod=mod"
+
+# Optional: Add custom headers for security and performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Cache static assets aggressively
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Redirect trailing slashes for clean URLs
+[[redirects]]
+  from = "/*/"
+  to = "/:splat"
+  status = 301
+
+# Function configuration (if using Netlify Functions later)
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Edge handlers (if needed)
+# [edge_handlers]
+#   entry_point = "edge-handlers/main.ts"
+
+# Build plugins (optional - for additional features)
+# [[plugins]]
+#   package = "@netlify/plugin-lighthouse"
+
+# Environment variables (set these in Netlify dashboard instead)
+# [build.environment]
+#   HUGO_BASEURL = "https://your-site.netlify.app"
+#   CUSDIS_APP_ID = "your-cusdis-app-id"
+#   GITHUB_URL = "https://github.com/your-username"
+#   EMAIL_URL = "mailto:your@email.com"

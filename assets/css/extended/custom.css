@@ -1,0 +1,132 @@
+/* Custom styles for Mon Licenciement blog */
+/* Add your custom CSS here - this file is loaded by PaperMod */
+
+/* Custom primary color - bordeaux red for the theme */
+:root {
+  --primary: #c0392b;
+  --primary-hover: #a93226;
+}
+
+/* Dark mode adjustments */
+.dark {
+  --primary: #e74c3c;
+  --primary-hover: #c0392b;
+}
+
+/* Home page profile mode image */
+.profileMode-img {
+  border-radius: 50%;
+  border: 3px solid var(--primary);
+}
+
+/* Timeline shortcode improvements */
+.timeline-container h2 {
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 0.5rem;
+}
+
+/* Post meta enhancements */
+.post-meta {
+  border-left: 3px solid var(--primary);
+  padding-left: 1rem;
+}
+
+/* Code blocks */
+pre.chroma {
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+/* Custom button styles */
+button, .button, a.button {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+button:hover, .button:hover, a.button:hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+/* Search page */
+.search-page .search-input {
+  border-color: var(--primary);
+}
+
+.search-page .search-input:focus {
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+/* Footer */
+footer {
+  border-top: 1px solid var(--border);
+}
+
+/* Table of contents */
+#table-of-contents a {
+  color: var(--primary);
+}
+
+#table-of-contents a:hover {
+  color: var(--primary-hover);
+}
+
+/* Tags and categories */
+.terms .term a {
+  background-color: var(--primary);
+}
+
+.terms .term a:hover {
+  background-color: var(--primary-hover);
+}
+
+/* Pagination */
+.pagination a, .pagination span {
+  border-color: var(--primary);
+}
+
+.pagination a:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+/* Reading progress bar (if enabled) */
+.reading-progress {
+  background-color: var(--primary);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-hover);
+}
+
+/* Focus visible for accessibility */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .post-content {
+    max-width: none;
+  }
+}

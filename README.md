@@ -4,7 +4,7 @@ Blog statique généré avec [Hugo](https://gohugo.io/) et le thème [PaperMod](
 
 ## 🚀 Caractéristiques
 
-- **Thème** : PaperMod (13k+ stars, le plus populaire des thèmes Hugo)
+- **Thème** : PaperMod (13k+ stars, le thème Hugo le plus populaire)
 - **Multilingue** : Français (actif) + Anglais (prêt, contenu à traduire)
 - **Recherche** : Fuse.js intégrée, recherche full-text sans backend
 - **Dark mode** : automatique (selon OS) ou manuel
@@ -12,6 +12,7 @@ Blog statique généré avec [Hugo](https://gohugo.io/) et le thème [PaperMod](
 - **SEO** : optimisé, Open Graph, Twitter Cards, JSON-LD
 - **Performance** : 100/100 Lighthouse, zéro dépendance Node.js
 - **Hébergement** : prêt pour GitHub Pages, Netlify, Cloudflare Pages, Vercel
+- **Export** : génération d'archive ZIP pour déploiement manuel
 
 ## 📁 Structure
 
@@ -36,22 +37,37 @@ Blog statique généré avec [Hugo](https://gohugo.io/) et le thème [PaperMod](
 │   └── shortcodes/       # Shortcodes Hugo
 │       └── timeline.html # Shortcode chronologie
 ├── static/               # Images, favicons, PDFs
-├── hugo.toml           # Configuration Hugo + multilingue
-├── go.mod                # Hugo Module (PaperMod)
+│   ├── images/
+│   ├── docs/
+│   └── favicon.svg
+├── hugo.toml            # Configuration Hugo + multilingue
+├── go.mod               # Hugo Module (PaperMod)
+├── go.sum               # Checksums modules
+├── netlify.toml         # Config Netlify
+├── wrangler.toml        # Config Cloudflare Pages
+├── package.json         # Scripts npm (pour Netlify/CF)
+├── .env.example         # Variables d'environnement
+├── .github/
+│   ├── workflows/
+│   │   ├── hugo.yml           # Build + multi-platform deploy
+│   │   ├── pr-check.yml       # Validation PR
+│   │   └── dependabot-auto-merge.yml
+│   └── dependabot.yml   # Mises à jour auto
 └── README.md
 ```
 
 ## 🛠️ Prérequis
 
-- [Hugo Extended](https://gohugo.io/installation/) ≥ v0.112.0
+- [Hugo Extended](https://gohugo.io/installation/) ≥ v0.139.0
 - Git
+- Node.js ≥ 20 (optionnel, pour Netlify/Cloudflare)
 
 ## 📦 Installation
 
 ### 1. Cloner le projet
 
 ```bash
-git clone https://github.com/votre-username/mon-licenciement-blog.git
+git clone https://github.com/your-username/mon-licenciement-blog.git
 cd mon-licenciement-blog
 ```
 
@@ -61,9 +77,16 @@ cd mon-licenciement-blog
 hugo mod get -u
 ```
 
-> PaperMod est géré via Hugo Modules (go.mod), pas besoin de `git submodule`.
+> PaperMod est géré via Hugo Modules (`go.mod`), pas besoin de `git submodule`.
 
-### 3. Lancer le serveur local
+### 3. Configurer les variables d'environnement
+
+```bash
+cp .env.example .env
+# Éditer .env avec vos valeurs
+```
+
+### 4. Lancer le serveur local
 
 ```bash
 hugo server -D
@@ -128,7 +151,7 @@ Pour les documents PDF, les placer dans `static/docs/` et créer des liens :
 
 Modifier `hugo.toml` :
 
-```yaml
+```toml
 languages:
   fr:
     languageName: "Français"
@@ -143,96 +166,122 @@ languages:
 
 ## 🚀 Déploiement
 
-### GitHub Pages (recommandé)
+Le workflow GitHub Actions (`.github/workflows/hugo.yml`) construit le site et peut déployer sur **4 plateformes** simultanément. Vous choisissez où déployer en configurant les secrets.
 
-1. Créer un repo GitHub : `votre-username/mon-licenciement-blog`
-2. Pousser le code :
+### Variables d'environnement requises
 
+| Variable | Description | Défaut |
+|----------|-------------|--------|
+| `HUGO_BASEURL` | URL de base du site (requis en prod) | `https://example.com` |
+| `HUGO_AUTHOR` | Nom de l'auteur | `Votre Nom` |
+| `CUSDIS_APP_ID` | ID Cusdis pour commentaires | (optionnel) |
+| `GITHUB_URL` | Lien GitHub | `https://github.com/your-username` |
+| `EMAIL_URL` | Lien email | `mailto:your@email.com` |
+
+---
+
+### 1. GitHub Pages (gratuit, inclus)
+
+**Configuration :**
+1. Créer un repo GitHub : `your-username/mon-licenciement-blog`
+2. Pousser le code
+3. Settings → Pages → Source : **GitHub Actions**
+4. Le workflow `.github/workflows/hugo.yml` déploie automatiquement sur push sur `main`
+
+**URL** : `https://your-username.github.io/mon-licenciement-blog`
+
+---
+
+### 2. Netlify (gratuit, généreux)
+
+**Via Git (recommandé) :**
+1. Connecter le repo sur [Netlify](https://netlify.com)
+2. Build command : `hugo --gc --minify`
+3. Publish directory : `public`
+4. Ajouter variables d'environnement dans Site settings → Environment variables
+
+**Via Netlify CLI :**
 ```bash
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin https://github.com/votre-username/mon-licenciement-blog.git
-git push -u origin main
+npm install -g netlify-cli
+netlify login
+netlify init
+netlify deploy --prod --dir=public
 ```
 
-3. Activer GitHub Pages dans Settings → Pages → Source : GitHub Actions
-4. Utiliser le workflow Hugo officiel (créer `.github/workflows/hugo.yml`)
+**Secrets GitHub Actions (pour auto-deploy) :**
+- `NETLIFY_AUTH_TOKEN` : Personal access token Netlify
+- `NETLIFY_SITE_ID` : Site ID (dans Site settings)
 
-```yaml
-name: Deploy Hugo site to Pages
+---
 
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:
+### 3. Cloudflare Pages (gratuit, illimité)
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
-defaults:
-  run:
-    shell: bash
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    env:
-      HUGO_VERSION: 0.128.0
-    steps:
-      - name: Install Hugo CLI
-        run: |
-          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb
-          sudo dpkg -i ${{ runner.temp }}/hugo.deb
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v5
-      - name: Build with Hugo
-        env:
-          HUGO_ENVIRONMENT: production
-          HUGO_ENV: production
-        run: |
-          hugo             --gc             --minify             --baseURL "${{ steps.pages.outputs.base_url }}/"
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./public
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-```
-
-### Netlify
-
-1. Pousser sur GitHub
-2. Connecter le repo sur [Netlify](https://netlify.com)
-3. Build command : `hugo --gc --minify`
-4. Publish directory : `public`
-
-### Cloudflare Pages
-
-1. Connecter le repo GitHub
+**Via Git (recommandé) :**
+1. Connecter le repo sur [Cloudflare Pages](https://pages.cloudflare.com)
 2. Build command : `hugo --gc --minify`
 3. Build output directory : `public`
+4. Ajouter variables d'environnement
+
+**Via Wrangler CLI :**
+```bash
+npm install -g wrangler
+wrangler login
+wrangler pages deploy ./public --project-name=mon-licenciement-blog
+```
+
+**Secrets GitHub Actions :**
+- `CLOUDFLARE_API_TOKEN` : API Token (Account > Pages > Edit)
+- `CLOUDFLARE_ACCOUNT_ID` : Account ID (dans l'URL dashboard)
+- `CLOUDFLARE_PROJECT_NAME` : Nom du projet Pages
+
+---
+
+### 4. Vercel (gratuit, généreux)
+
+**Via Git :**
+1. Importer le repo sur [Vercel](https://vercel.com)
+2. Framework : Other
+3. Build command : `hugo --gc --minify`
+4. Output directory : `public`
+
+**Secrets GitHub Actions :**
+- `VERCEL_TOKEN` : Vercel Access Token
+- `VERCEL_ORG_ID` : Organisation ID
+- `VERCEL_PROJECT_ID` : Projet ID
+
+---
+
+### 5. Déploiement manuel (ZIP)
+
+Le workflow génère une archive `site.zip` téléchargeable depuis les artifacts GitHub Actions.
+
+```bash
+# En local
+hugo --gc --minify
+cd public
+zip -r ../site.zip .
+```
+
+Déployer `site.zip` sur n'importe quel hébergeur statique (AWS S3, Firebase Hosting, Surge.sh, etc.)
+
+---
+
+## ⚙️ Configuration des Variables d'environnement par plateforme
+
+### GitHub Pages
+Dans le workflow, `HUGO_BASEURL` est automatiquement défini via `${{ steps.pages.outputs.base_url }}`.
+
+### Netlify / Cloudflare / Vercel
+Ajoutez dans les variables d'environnement du projet :
+```
+HUGO_BASEURL=https://your-site.netlify.app
+HUGO_AUTHOR=Votre Nom
+CUSDIS_APP_ID=your-cusdis-id
+GITHUB_URL=https://github.com/your-username
+EMAIL_URL=mailto:your@email.com
+```
+
+---
 
 ## 🤖 Dependabot
 
@@ -240,25 +289,24 @@ Ce projet utilise [Dependabot](https://github.com/dependabot) pour surveiller au
 
 | Écosystème | Fréquence | Cible |
 |-----------|-----------|-------|
-| **Go Modules** | Tous les lundis 9h | Mises à jour du thème PaperMod (`go.mod`) |
+| **Go Modules** | Tous les lundis 9h | Mises à jour thème PaperMod (`go.mod`) |
 | **GitHub Actions** | Tous les lundis 9h | Mises à jour des actions CI/CD |
+| **Docker** | Tous les lundis 9h | Image Hugo (via Dockerfile) |
 
-Dependabot crée des **Pull Requests automatiques** que vous pouvez reviewer avant de merger. Cela garantit que :
-- Le thème PaperMod reste à jour (corrections de bugs, nouvelles fonctionnalités)
-- Les workflows GitHub Actions utilisent les dernières versions sécurisées
+### Auto-merge
 
-### Configuration
+Les PRs Dependabot avec le label `automerge` sont :
+- **Approuvées automatiquement** pour les mises à jour mineures/patch
+- **Mergées automatiquement** si tous les checks passent
+- **Majeures** : nécessitent une review manuelle
 
-Le fichier `.github/dependabot.yml` définit les règles. Modifiez-le si vous voulez :
-- Changer la fréquence (`daily`, `weekly`, `monthly`)
-- Ajouter d'autres écosystèmes (npm, pip, etc.)
-- Désactiver les mises à jour automatiques
+---
 
 ## ⚙️ Personnalisation
 
 ### Modifier l'apparence
 
-Éditer `assets/css/extended/` (créer le dossier si besoin) :
+Éditer `assets/css/extended/custom.css` (créer le dossier si besoin) :
 
 ```css
 /* assets/css/extended/custom.css */
@@ -275,10 +323,33 @@ Le fichier `.github/dependabot.yml` définit les règles. Modifiez-le si vous vo
 
 Éditer `hugo.toml` → section `languages.fr.menu.main`.
 
+### Désactiver les commentaires
+
+Dans le front matter d'un article :
+```yaml
+disableComments: true
+```
+
+Ou globalement dans `hugo.toml` :
+```toml
+[params]
+  comments = false
+```
+
+---
+
 ## 📄 Licence
 
 Le contenu du blog vous appartient.  
 Le thème PaperMod est sous licence [MIT](https://github.com/adityatelange/hugo-PaperMod/blob/master/LICENSE).
+
+---
+
+## 📞 Support
+
+- **Issues** : [GitHub Issues](https://github.com/your-username/mon-licenciement-blog/issues)
+- **Documentation Hugo** : https://gohugo.io/documentation/
+- **Documentation PaperMod** : https://adityatelange.github.io/hugo-PaperMod/
 
 ---
 

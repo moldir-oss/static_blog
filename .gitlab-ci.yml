@@ -1,0 +1,21 @@
+image: peaceiris/hugo:v0.139.0
+
+variables:
+  HUGO_ENV: production
+  HUGO_ENVIRONMENT: production
+  GIT_SUBMODULE_STRATEGY: recursive
+
+cache:
+  paths:
+    - resources/_gen/
+    - public/
+
+pages:
+  script:
+    - hugo mod get -u
+    - hugo --gc --minify
+  artifacts:
+    paths:
+      - public
+  only:
+    - main

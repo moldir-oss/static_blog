@@ -1,4 +1,4 @@
-name: Deploy Hugo site to Pages
+name: Build and Deploy Hugo Site
 
 on:
   push:
@@ -16,53 +16,70 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+env:
+  HUGO_VERSION: "0.139.0"
+
 defaults:
   run:
     shell: bash
 
 jobs:
-  # Job de build et test (s'exécute aussi sur PR)
   build:
+    name: Build Hugo Site
     runs-on: ubuntu-latest
     env:
-      HUGO_VERSION: 0.164.0
+      HUGO_VERSION: ${{ env.HUGO_VERSION }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
         with:
-          submodules: recursive
           fetch-depth: 0
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache: true
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: '0.128.0'
+          hugo-version: ${{ env.HUGO_VERSION }}
           extended: true
 
       - name: Get Hugo modules
         run: hugo mod get -u
 
       - name: Install Node.js dependencies
-        run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
+        if: hashFiles('package-lock.json') != '' || hashFiles('npm-shrinkwrap.json') != ''
+        run: npm ci
+
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
 
       - name: Build with Hugo
         env:
           HUGO_ENVIRONMENT: production
           HUGO_ENV: production
+          HUGO_BASEURL: ${{ steps.pages.outputs.base_url }}
         run: |
           hugo --gc --minify
 
-      - name: Check for broken links
+      - name: Validate build
         run: |
-          # Vérifier que le build a bien généré des fichiers
           if [ ! -f ./public/index.html ]; then
-            echo "❌ Erreur : index.html non généré"
+            echo "❌ Error: index.html not generated"
             exit 1
           fi
-          echo "✅ Build validé — $(find ./public -type f | wc -l) fichiers générés"
+          echo "✅ Build validated — $(find ./public -type f | wc -l) files generated"
 
-      - name: Create site zip
-        if: github.event_name != 'pull_request'
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+
+      - name: Create site zip artifact
         run: |
           cd public
           zip -r ../site.zip .
@@ -70,9 +87,111 @@ jobs:
           ls -lh site.zip
 
       - name: Upload zip artifact
-        if: github.event_name != 'pull_request'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4
         with:
-          name: hugo-site
+          name: hugo-site-zip
           path: site.zip
           retention-days: 30
+
+  deploy-github-pages:
+    name: Deploy to GitHub Pages
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  deploy-netlify:
+    name: Deploy to Netlify
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && secrets.NETLIFY_AUTH_TOKEN != '' && secrets.NETLIFY_SITE_ID != ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: hugo-site-zip
+          path: ./public
+
+      - name: Unzip site
+        run: |
+          cd public
+          unzip -o site.zip
+          rm site.zip
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v3
+        with:
+          publish-dir: ./public
+          production-branch: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+  deploy-cloudflare:
+    name: Deploy to Cloudflare Pages
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: hugo-site-zip
+          path: ./public
+
+      - name: Unzip site
+        run: |
+          cd public
+          unzip -o site.zip
+          rm site.zip
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
+          directory: ./public
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          wranglerVersion: '3'
+
+  deploy-vercel:
+    name: Deploy to Vercel
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && secrets.VERCEL_TOKEN != '' && secrets.VERCEL_ORG_ID != '' && secrets.VERCEL_PROJECT_ID != ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: hugo-site-zip
+          path: ./public
+
+      - name: Unzip site
+        run: |
+          cd public
+          unzip -o site.zip
+          rm site.zip
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          working-directory: ./public

@@ -1,0 +1,68 @@
+# Cloudflare Pages Configuration (wrangler.toml)
+# This file configures Cloudflare Pages for your Hugo site
+# 
+# Usage:
+# 1. Install Wrangler: npm install -g wrangler
+# 2. Login: wrangler login
+# 3. Deploy: wrangler pages deploy ./public --project-name=your-project-name
+#
+# Or use the Cloudflare Dashboard with direct Git integration
+
+name = "mon-licenciement-blog"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "./public"
+
+# Build configuration for Cloudflare Pages
+# These settings are used when connecting via Git integration
+[build]
+  command = "hugo --gc --minify"
+  destination = "public"
+  # Environment variables for build
+  [build.environment]
+    HUGO_VERSION = "0.139.0"
+    HUGO_ENABLEGITINFO = "true"
+    HUGO_ENV = "production"
+    HUGO_ENVIRONMENT = "production"
+    GOFLAGS = "-mod=mod"
+
+# Custom headers for security and performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Aggressive caching for static assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Redirect trailing slashes for clean URLs
+[[redirects]]
+  from = "/*/"
+  to = "/:splat"
+  status = 301
+
+# Optional: Custom domain configuration (set in Cloudflare Dashboard)
+# routes = [
+#   { pattern = "your-domain.com/*", zone_name = "your-domain.com" }
+# ]
+
+# Functions configuration (if using Cloudflare Pages Functions)
+# [functions]
+#   directory = "functions"
+#   node_compat = true

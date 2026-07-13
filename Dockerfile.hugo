@@ -1,0 +1,5 @@
+# Hugo Extended Docker Image
+# Dependabot surveille ce fichier (écosystème docker)
+# Quand une nouvelle version Hugo sort, Dependabot crée une PR
+# pour mettre à jour ce tag → le workflow auto-merge propage la version
+FROM klakegg/hugo:0.139.0-ext-ubuntu AS builder

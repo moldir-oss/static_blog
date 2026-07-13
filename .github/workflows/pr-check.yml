@@ -10,21 +10,35 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    env:
+      HUGO_VERSION: "0.139.0"
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache: true
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: '0.128.0'
+          hugo-version: ${{ env.HUGO_VERSION }}
           extended: true
+
+      - name: Get Hugo modules
+        run: hugo mod get -u
+
+      - name: Install Node.js dependencies
+        if: hashFiles('package-lock.json') != '' || hashFiles('npm-shrinkwrap.json') != ''
+        run: npm ci
 
       - name: Validate hugo.toml
         run: |
-          # Vérifier que hugo.toml est valide (Hugo le parsera au build)
           hugo config --environment production > /dev/null
           echo "✅ hugo.toml valide"
 
@@ -38,7 +52,6 @@ jobs:
 
       - name: Check front matter
         run: |
-          # Vérifier que tous les fichiers .md ont un front matter valide
           errors=0
           for file in $(find content -name "*.md"); do
             if ! head -1 "$file" | grep -q "^---"; then
@@ -50,3 +63,9 @@ jobs:
             exit 1
           fi
           echo "✅ Front matter validé sur tous les articles"
+
+      - name: Check for broken links (optional)
+        if: false
+        run: |
+          npm install -g @markdown-link-check/markdown-link-check
+          find content -name "*.md" -exec markdown-link-check {} \;

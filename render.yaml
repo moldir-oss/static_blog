@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: mon-licenciement-blog
+    env: static
+    buildCommand: hugo --gc --minify
+    staticPublishPath: ./public
+    envVars:
+      - key: HUGO_VERSION
+        value: 0.139.0
+      - key: HUGO_ENV
+        value: production
+      - key: HUGO_ENVIRONMENT
+        value: production
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+      - path: /images/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable

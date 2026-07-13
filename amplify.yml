@@ -1,0 +1,16 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - hugo mod get -u
+    build:
+      commands:
+        - hugo --gc --minify
+  artifacts:
+    baseDirectory: public
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - resources/_gen/

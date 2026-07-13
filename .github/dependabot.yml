@@ -1,44 +1,77 @@
 version: 2
 
 updates:
-  # Surveillance des modules Go (thème PaperMod via go.mod)
+  # Suivi des modules Go (via go.mod)
+  # Met à jour AUTOMATIQUEMENT :
+  #   - go 1.22 → 1.23 → 1.24... (version Go)
+  #   - github.com/adityatelange/hugo-PaperMod (thème)
+  #   - Toutes les dépendances indirectes (gohugoio/hugo, goldmark, etc.)
   - package-ecosystem: "gomod"
     directory: "/"
     schedule:
-      interval: "weekly"
-      day: "monday"
+      interval: "daily"
       time: "09:00"
       timezone: "Europe/Paris"
     open-pull-requests-limit: 5
     reviewers:
-      - "votre-username"
+      - "your-username"
     assignees:
-      - "votre-username"
+      - "your-username"
     commit-message:
       prefix: "chore"
       include: "scope"
     labels:
       - "dependencies"
       - "hugo-theme"
-    # Ne pas mettre à jour automatiquement les PR, laisser la review manuelle
-    # car les MAJ de thème peuvent casser le design
+      - "automerge"
+    # Auto-merge si les checks passent
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
 
   # Surveillance des GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
-      day: "monday"
+      interval: "daily"
       time: "09:00"
       timezone: "Europe/Paris"
     open-pull-requests-limit: 10
     reviewers:
-      - "votre-username"
+      - "your-username"
     assignees:
-      - "votre-username"
+      - "your-username"
     commit-message:
       prefix: "ci"
       include: "scope"
     labels:
       - "dependencies"
       - "github-actions"
+      - "automerge"
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+
+  # Suivi de l'image Docker Hugo (Dockerfile.hugo)
+  # Dependabot détecte les nouveaux tags sur Docker Hub → PR
+  # Le workflow auto-merge propage la version dans hugo.yml, netlify.toml, wrangler.toml...
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "09:00"
+      timezone: "Europe/Paris"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "your-username"
+    assignees:
+      - "your-username"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "hugo"
+      - "automerge"
+    allow:
+      - dependency-type: "direct"

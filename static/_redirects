@@ -1,0 +1,3 @@
+# Universal redirects (Netlify + Cloudflare Pages)
+# Enlever les trailing slashes
+/*/  /:splat  301
