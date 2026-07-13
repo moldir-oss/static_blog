@@ -27,7 +27,6 @@ jobs:
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
-      # Dockerfile.hugo mis à jour → propager dans tous les configs
       - name: Propagate Hugo version to all configs
         if: steps.metadata.outputs.package-ecosystem == 'docker'
         run: |
@@ -44,13 +43,7 @@ jobs:
           git diff --cached --quiet || git commit -m "ci: propagate Hugo $HUGO_VER"
           git push
 
-      - name: Auto-approve
-        run: gh pr review --approve "$PR_URL"
-        env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Auto-merge when CI passes
+      - name: Enable auto-merge when CI passes
         run: gh pr merge --auto --merge "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
