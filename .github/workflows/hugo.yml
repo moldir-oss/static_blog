@@ -39,10 +39,6 @@ jobs:
           hugo-version: '0.128.0'
           extended: true
 
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v6
-
       - name: Install Node.js dependencies
         run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
 
@@ -51,7 +47,7 @@ jobs:
           HUGO_ENVIRONMENT: production
           HUGO_ENV: production
         run: |
-          hugo             --gc             --minify             --baseURL "${{ steps.pages.outputs.base_url }}/"
+          hugo --gc --minify
 
       - name: Check for broken links
         run: |
