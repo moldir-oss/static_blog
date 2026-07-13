@@ -1,0 +1,44 @@
+version: 2
+
+updates:
+  # Surveillance des modules Go (thème PaperMod via go.mod)
+  - package-ecosystem: "gomod"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Europe/Paris"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "votre-username"
+    assignees:
+      - "votre-username"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "hugo-theme"
+    # Ne pas mettre à jour automatiquement les PR, laisser la review manuelle
+    # car les MAJ de thème peuvent casser le design
+
+  # Surveillance des GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Europe/Paris"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "votre-username"
+    assignees:
+      - "votre-username"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "github-actions"

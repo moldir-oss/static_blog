@@ -1,0 +1,175 @@
+baseURL = 'https://votre-username.github.io/mon-licenciement-blog'
+defaultContentLanguage = 'fr'
+languageCode = 'fr-fr'
+title = 'Mon Licenciement'
+theme = 'PaperMod'
+
+copyright = '© 2026 - Tous droits réservés'
+
+paginate = 5
+
+enableRobotsTXT = true
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+enableEmoji = true
+pygmentsUseClasses = true
+
+# Multilingue : Français par défaut, Anglais prêt
+[languages]
+  [languages.fr]
+    languageName = "Français"
+    weight = 1
+    [[languages.fr.menu.main]]
+      name = "Accueil"
+      url = "/"
+      weight = 10
+    [[languages.fr.menu.main]]
+      name = "Articles"
+      url = "/posts"
+      weight = 20
+    [[languages.fr.menu.main]]
+      name = "Chronologie"
+      url = "/posts/chronologie"
+      weight = 25
+    [[languages.fr.menu.main]]
+      name = "Archives"
+      url = "/archives"
+      weight = 30
+    [[languages.fr.menu.main]]
+      name = "Recherche"
+      url = "/search"
+      weight = 40
+    [[languages.fr.menu.main]]
+      name = "Tags"
+      url = "/tags"
+      weight = 50
+  [languages.en]
+    languageName = "English"
+    weight = 2
+    [[languages.en.menu.main]]
+      name = "Home"
+      url = "/"
+      weight = 10
+    [[languages.en.menu.main]]
+      name = "Posts"
+      url = "/posts"
+      weight = 20
+    [[languages.en.menu.main]]
+      name = "Timeline"
+      url = "/posts/timeline"
+      weight = 25
+    [[languages.en.menu.main]]
+      name = "Archives"
+      url = "/archives"
+      weight = 30
+    [[languages.en.menu.main]]
+      name = "Search"
+      url = "/search"
+      weight = 40
+    [[languages.en.menu.main]]
+      name = "Tags"
+      url = "/tags"
+      weight = 50
+
+[params]
+  env = "production"
+  description = "Récit complet de mon parcours de licenciement, de l'avertissement à la décision de justice."
+  author = "Votre Nom"
+
+  # PaperMod settings
+  defaultTheme = "auto"
+  ShowReadingTime = true
+  ShowShareButtons = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = false
+  ShowWordCount = true
+  ShowRssButtonInSectionTermList = true
+  UseHugoToc = true
+  disableSpecial1stPost = false
+  disableScrollToTop = false
+  comments = true
+  hidemeta = false
+  hideSummary = false
+  showtoc = true
+  tocopen = true
+
+  # Cusdis Comments
+  # Remplacez par votre APP_ID après inscription sur https://cusdis.com
+  cusdisAppId = "YOUR_CUSDIS_APP_ID"
+
+  # SEO
+  [params.assets]
+    favicon = "/favicon.ico"
+    favicon16x16 = "/favicon-16x16.png"
+    favicon32x32 = "/favicon-32x32.png"
+    apple_touch_icon = "/apple-touch-icon.png"
+    safari_pinned_tab = "/safari-pinned-tab.svg"
+
+  [params.label]
+    text = "Mon Licenciement"
+    icon = "/apple-touch-icon.png"
+    iconHeight = 35
+
+  # Profile mode (page d'accueil)
+  [params.profileMode]
+    enabled = true
+    title = "Mon Histoire de Licenciement"
+    subtitle = "Tous les documents, étapes et la chronologie complète de mon parcours — de l'avertissement à la décision de justice."
+    imageUrl = "/images/cover.jpg"
+    imageWidth = 120
+    imageHeight = 120
+    imageTitle = "Mon Licenciement"
+    [[params.profileMode.buttons]]
+      name = "Lire les articles"
+      url = "/posts"
+    [[params.profileMode.buttons]]
+      name = "Voir la chronologie"
+      url = "/posts/chronologie"
+
+  # Social icons
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/votre-username"
+  [[params.socialIcons]]
+    name = "email"
+    url = "mailto:votre@email.com"
+
+  # Search
+  [params.fuseOpts]
+    isCaseSensitive = false
+    shouldSort = true
+    location = 0
+    distance = 1000
+    threshold = 0.4
+    minMatchCharLength = 0
+    keys = ["title", "permalink", "summary", "content"]
+
+  # Analytics (décommentez si besoin)
+  # googleAnalytics = "G-XXXXXXXXXX"
+
+# Search page outputs
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+# Taxonomies
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+  series = "series"
+
+# Markup
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+    [markup.goldmark.extensions]
+      typographer = true
+  [markup.highlight]
+    noClasses = false
+    anchorLineNos = true
+    codeFences = true
+    guessSyntax = true
+    lineNos = true
+    style = "monokai"

@@ -1,0 +1,76 @@
+<div class="timeline-container">
+<style>
+.timeline-container {
+  position: relative;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+.timeline-container::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 100%;
+  background: var(--primary, #2c3e50);
+  opacity: 0.3;
+}
+.timeline-container h2 {
+  text-align: center;
+  margin: 2rem 0 1rem;
+  font-size: 1.5rem;
+  color: var(--primary, #2c3e50);
+}
+.timeline-container h3 {
+  position: relative;
+  margin: 1.5rem 0 0.5rem;
+  padding-left: 1.5rem;
+  font-size: 1.1rem;
+  color: var(--content, #1a1a1a);
+}
+.timeline-container h3::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--primary, #2c3e50);
+  border: 2px solid var(--theme, #fff);
+}
+.timeline-container p {
+  margin: 0.3rem 0 1rem 1.5rem;
+  color: var(--secondary, #666);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.timeline-container hr {
+  border: none;
+  border-top: 1px dashed var(--border, #ddd);
+  margin: 1rem 0;
+  opacity: 0.5;
+}
+.timeline-container a {
+  color: var(--primary, #2c3e50);
+  text-decoration: underline;
+  font-weight: 600;
+}
+@media (max-width: 768px) {
+  .timeline-container::before {
+    left: 15px;
+  }
+  .timeline-container h3 {
+    padding-left: 2rem;
+  }
+  .timeline-container h3::before {
+    left: 9px;
+  }
+  .timeline-container p {
+    margin-left: 2rem;
+  }
+}
+</style>
+{{ .Inner }}
+</div>

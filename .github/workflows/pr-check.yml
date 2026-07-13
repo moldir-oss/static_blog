@@ -1,0 +1,52 @@
+name: PR Check
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.128.0'
+          extended: true
+
+      - name: Validate hugo.toml
+        run: |
+          # Vérifier que hugo.toml est valide (Hugo le parsera au build)
+          hugo config --environment production > /dev/null
+          echo "✅ hugo.toml valide"
+
+      - name: Build check
+        env:
+          HUGO_ENVIRONMENT: production
+          HUGO_ENV: production
+        run: |
+          hugo --gc --minify
+          echo "✅ Build Hugo réussi"
+
+      - name: Check front matter
+        run: |
+          # Vérifier que tous les fichiers .md ont un front matter valide
+          errors=0
+          for file in $(find content -name "*.md"); do
+            if ! head -1 "$file" | grep -q "^---"; then
+              echo "❌ Front matter manquant : $file"
+              errors=$((errors + 1))
+            fi
+          done
+          if [ $errors -gt 0 ]; then
+            exit 1
+          fi
+          echo "✅ Front matter validé sur tous les articles"
