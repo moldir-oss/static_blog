@@ -53,12 +53,6 @@ jobs:
         run: |
           hugo             --gc             --minify             --baseURL "${{ steps.pages.outputs.base_url }}/"
 
-      - name: Upload artifact
-        if: github.event_name != 'pull_request'
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: ./public
-
       - name: Check for broken links
         run: |
           # Vérifier que le build a bien généré des fichiers
@@ -68,15 +62,18 @@ jobs:
           fi
           echo "✅ Build validé — $(find ./public -type f | wc -l) fichiers générés"
 
-  # Job de déploiement (uniquement sur push main)
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+      - name: Create site zip
+        if: github.event_name != 'pull_request'
+        run: |
+          cd public
+          zip -r ../site.zip .
+          cd ..
+          ls -lh site.zip
+
+      - name: Upload zip artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v5
+        with:
+          name: hugo-site
+          path: site.zip
+          retention-days: 30
