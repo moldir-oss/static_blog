@@ -128,7 +128,7 @@ jobs:
           rm site.zip
 
       - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v3
+        uses: nwtgck/actions-netlify@v4
         with:
           publish-dir: ./public
           production-branch: main
