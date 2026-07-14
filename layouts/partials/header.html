@@ -89,9 +89,10 @@
     </nav>
     {{- if (and (not site.Params.disableLangToggle) hugo.IsMultilingual) }}
     {{- $lang := .Lang}}
+    {{- $flags := dict "fr" "🇫🇷" "en" "🇬🇧" }}
     <ul class="lang-menu lang-switcher">
         {{- range $code, $l := site.Languages -}}
-        {{- if $l.Params.flag }}
+        {{- $flag := index $flags $code | default ($code | title) }}
         {{- $url := "" }}
         {{- if eq $code $lang }}
         {{- $url = $.RelPermalink }}
@@ -106,16 +107,15 @@
         {{- end }}
         {{- if $url }}
         <li>
-            <a href="{{- $url -}}" title="{{ $l.Params.languageAltTitle | default ($l.Label | emojify) | default ($code | title) }}"
+            <a href="{{- $url -}}" title="{{ $l.Label | default ($code | title) }}"
                 aria-label="{{ $l.Label | default ($code | title) }}"
                 class="lang-flag{{- if eq $lang $code }} active{{- end }}"
                 hreflang="{{ $code }}">
-                {{- $l.Params.flag | emojify -}}
+                {{- $flag | emojify -}}
             </a>
         </li>
         {{- end -}}
         {{- end -}}
-        {{- end}}
     </ul>
     {{- end }}
 </header>
