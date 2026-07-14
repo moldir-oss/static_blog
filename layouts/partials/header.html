@@ -63,10 +63,31 @@
         {{- $currentPage := . }}
         {{- $lang := .Lang }}
         {{- if hasPrefix .RelPermalink "/en/" }}{{- $lang = "en" }}{{- end }}
-        {{- $menu := site.Menus.main }}
-        {{- if eq $lang "en" }}{{- $menu = index site.Menus "main-en" }}{{- end }}
+        {{- $isEnglish := eq $lang "en" }}
         <ul id="menu" class="menu">
-            {{- range $menu }}
+            {{- if $isEnglish }}
+            {{- $enMenu := slice
+                (dict "URL" "/en/" "Name" "Home" "weight" 10)
+                (dict "URL" "/en/posts" "Name" "Posts" "weight" 20)
+                (dict "URL" "/en/posts/chronologie" "Name" "Timeline" "weight" 25)
+                (dict "URL" "/en/archives" "Name" "Archives" "weight" 30)
+                (dict "URL" "/en/search" "Name" "Search" "weight" 40)
+                (dict "URL" "/en/tags" "Name" "Tags" "weight" 50)
+            }}
+            {{- range $enMenu }}
+            {{- $page_url := $currentPage.RelPermalink }}
+            {{- $item_url := .URL }}
+            {{- $item_url_slash := cond (strings.HasSuffix .URL "/") .URL (printf "%s/" .URL) }}
+            <li>
+                <a href="{{ $item_url }}" title="{{ .Name }}">
+                    <span {{- if eq $item_url_slash $page_url }} class="active" {{- end }}>
+                        {{- .Name -}}
+                    </span>
+                </a>
+            </li>
+            {{- end }}
+            {{- else }}
+            {{- range site.Menus.main }}
             {{- $menu_item_url := (cond (strings.HasSuffix .URL "/") .URL (printf "%s/" .URL) ) | relLangURL }}
             {{- $page_url:= $currentPage.RelPermalink }}
             {{- $is_search := eq (site.GetPage .KeyName).Layout `search` }}
@@ -89,10 +110,11 @@
                 </a>
             </li>
             {{- end }}
+            {{- end }}
         </ul>
     </nav>
     {{- if (and (not site.Params.disableLangToggle) hugo.IsMultilingual) }}
-    {{- $flags := dict "fr" "🇫🇷" "en" "🇬🇧" }}
+    {{- $flags := dict "fr" "🇫🇷" "en" "🇺🇸" }}
     <ul class="lang-menu lang-switcher">
         {{- range site.Languages }}
         {{- $code := .Lang }}
