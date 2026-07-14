@@ -1,4 +1,4 @@
-name: Build and Deploy Hugo Site
+name: Build Hugo Site
 
 on:
   push:
@@ -9,12 +9,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
 
 env:
   HUGO_VERSION: "0.164.0"
@@ -67,11 +61,6 @@ jobs:
           fi
           echo "✅ Build validated — $(find ./public -type f | wc -l) files generated"
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: ./public
-
       - name: Create site zip artifact
         run: |
           cd public
@@ -85,106 +74,3 @@ jobs:
           name: hugo-site-zip
           path: site.zip
           retention-days: 30
-
-  deploy-github-pages:
-    name: Deploy to GitHub Pages
-    needs: build
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && vars.DEPLOY_GITHUB_PAGES == 'true'
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
-
-  deploy-netlify:
-    name: Deploy to Netlify
-    needs: build
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && secrets.NETLIFY_AUTH_TOKEN != '' && secrets.NETLIFY_SITE_ID != ''
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v8
-        with:
-          name: hugo-site-zip
-          path: ./public
-
-      - name: Unzip site
-        run: |
-          cd public
-          unzip -o site.zip
-          rm site.zip
-
-      - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v4
-        with:
-          publish-dir: ./public
-          production-branch: main
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Deploy from GitHub Actions"
-          enable-pull-request-comment: false
-          enable-commit-comment: true
-          overwrites-pull-request-comment: true
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-
-  deploy-cloudflare:
-    name: Deploy to Cloudflare Pages
-    needs: build
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != ''
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v8
-        with:
-          name: hugo-site-zip
-          path: ./public
-
-      - name: Unzip site
-        run: |
-          cd public
-          unzip -o site.zip
-          rm site.zip
-
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
-          directory: ./public
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          wranglerVersion: '3'
-
-  deploy-vercel:
-    name: Deploy to Vercel
-    needs: build
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && secrets.VERCEL_TOKEN != '' && secrets.VERCEL_ORG_ID != '' && secrets.VERCEL_PROJECT_ID != ''
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v8
-        with:
-          name: hugo-site-zip
-          path: ./public
-
-      - name: Unzip site
-        run: |
-          cd public
-          unzip -o site.zip
-          rm site.zip
-
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v42
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
-          working-directory: ./public
