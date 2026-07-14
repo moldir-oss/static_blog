@@ -36,8 +36,17 @@
 
         {{- with .buttons }}
         <div class="buttons">
+            {{- $lang := $.Lang }}
+            {{- if hasPrefix $.RelPermalink "/en/" }}{{- $lang = "en" }}{{- end }}
+            {{- $parsedBaseURL := urls.Parse site.BaseURL }}
+            {{- $baseURLPath := $parsedBaseURL.Path }}
             {{- range . }}
-            <a class="button" href="{{ trim .url " " | relLangURL }}" rel="noopener" title="{{ .name }}">
+            {{- $btnRelPath := trim .url " " }}
+            {{- $btnURL := printf "%s%s" $baseURLPath $btnRelPath }}
+            {{- if eq $lang "en" }}
+                {{- $btnURL = printf "%s/en%s" $baseURLPath $btnRelPath }}
+            {{- end }}
+            <a class="button" href="{{ $btnURL }}" rel="noopener" title="{{ .name }}">
                 <span class="button-inner">
                     {{ .name }}
                     {{- if (findRE "://" .url) }}&nbsp;

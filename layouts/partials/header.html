@@ -3,7 +3,13 @@
         <div class="logo">
             {{- $label_text := (site.Params.label.text | default site.Title) }}
             {{- if site.Title }}
-            <a href="{{ "/" | relLangURL }}" accesskey="h" title="{{ $label_text }} (Alt + H)">
+            {{- $lang := $.Lang }}
+            {{- if hasPrefix $.RelPermalink "/en/" }}{{- $lang = "en" }}{{- end }}
+            {{- $parsedBaseURL := urls.Parse site.BaseURL }}
+            {{- $baseURLPath := $parsedBaseURL.Path }}
+            {{- $homeURL := printf "%s/" $baseURLPath }}
+            {{- if eq $lang "en" }}{{- $homeURL = printf "%s/en/" $baseURLPath }}{{- end }}
+            <a href="{{ $homeURL }}" accesskey="h" title="{{ $label_text }} (Alt + H)">
                 {{- if site.Params.label.icon }}
                 {{- $img := resources.Get site.Params.label.icon }}
                 {{- if $img }}
@@ -61,20 +67,22 @@
             {{- end }}
         </div>
         {{- $currentPage := . }}
+        {{- $parsedBaseURL := urls.Parse site.BaseURL }}
+        {{- $baseURLPath := $parsedBaseURL.Path }}
         {{- $lang := .Lang }}
         {{- if hasPrefix .RelPermalink "/en/" }}{{- $lang = "en" }}{{- end }}
         {{- $enNames := dict "/" "Home" "/posts" "Posts" "/chronologie" "Timeline" "/archives" "Archives" "/search" "Search" "/tags" "Tags" }}
         <ul id="menu" class="menu">
             {{- range site.Menus.main }}
-            {{- $itemLang := "fr" }}
-            {{- if hasPrefix .Identifier "en-" }}{{- $itemLang = "en" }}{{- end }}
             {{- $showName := .Name }}
             {{- if eq $lang "en" }}
-                {{- if eq $itemLang "fr" }}
-                    {{- $showName = index $enNames .URL | default .Name }}
-                {{- end }}
+                {{- $showName = index $enNames .URL | default .Name }}
             {{- end }}
-            {{- $showURL := .URL | relLangURL }}
+            {{- $relPath := strings.TrimPrefix $baseURLPath .URL }}
+            {{- $showURL := printf "%s%s" $baseURLPath $relPath }}
+            {{- if eq $lang "en" }}
+                {{- $showURL = printf "%s/en%s" $baseURLPath $relPath }}
+            {{- end }}
             {{- $menu_item_url := (cond (strings.HasSuffix $showURL "/") $showURL (printf "%s/" $showURL) ) }}
             {{- $page_url := $currentPage.RelPermalink }}
             <li>
