@@ -60,32 +60,32 @@ pygmentsUseClasses = true
     label = "English"
     weight = 2
     title = "Dismissal Case File"
-    [[languages.en.menu.main]]
+    [[languages.en.menu.main-en]]
       identifier = "en-home"
       name = "Home"
       url = "/"
       weight = 10
-    [[languages.en.menu.main]]
+    [[languages.en.menu.main-en]]
       identifier = "en-posts"
       name = "Posts"
       url = "/posts"
       weight = 20
-    [[languages.en.menu.main]]
+    [[languages.en.menu.main-en]]
       identifier = "en-timeline"
       name = "Timeline"
       url = "/posts/chronologie"
       weight = 25
-    [[languages.en.menu.main]]
+    [[languages.en.menu.main-en]]
       identifier = "en-archives"
       name = "Archives"
       url = "/archives"
       weight = 30
-    [[languages.en.menu.main]]
+    [[languages.en.menu.main-en]]
       identifier = "en-search"
       name = "Search"
       url = "/search"
       weight = 40
-    [[languages.en.menu.main]]
+    [[languages.en.menu.main-en]]
       identifier = "en-tags"
       name = "Tags"
       url = "/tags"
