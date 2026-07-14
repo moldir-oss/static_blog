@@ -70,8 +70,10 @@
             {{- if hasPrefix .Identifier "en-" }}{{- $itemLang = "en" }}{{- end }}
             {{- $showName := .Name }}
             {{- $showURL := .URL }}
-            {{- if and (eq $lang "en") (eq $itemLang "fr") }}
-                {{- $showName = index $enNames .URL | default .Name }}
+            {{- if eq $lang "en" }}
+                {{- if eq $itemLang "fr" }}
+                    {{- $showName = index $enNames .URL | default .Name }}
+                {{- end }}
                 {{- $showURL = printf "/en%s" .URL }}
             {{- end }}
             {{- $menu_item_url := (cond (strings.HasSuffix $showURL "/") $showURL (printf "%s/" $showURL) ) }}
