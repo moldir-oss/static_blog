@@ -6,7 +6,9 @@ theme = "PaperMod"
 
 copyright = "© 2026 - Tous droits réservés"
 
-paginate = 5
+[pagination]
+  pagerSize = 5
+  disableAliases = false
 
 enableRobotsTXT = true
 buildDrafts = false
