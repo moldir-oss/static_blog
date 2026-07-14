@@ -38,8 +38,7 @@
         <div class="buttons">
             {{- $lang := $.Lang }}
             {{- if hasPrefix $.RelPermalink "/en/" }}{{- $lang = "en" }}{{- end }}
-            {{- $parsedBaseURL := urls.Parse site.BaseURL }}
-            {{- $baseURLPath := $parsedBaseURL.Path }}
+            {{- $baseURLPath := strings.TrimSuffix "/" (urls.Parse site.BaseURL).Path }}
             {{- range . }}
             {{- $btnRelPath := trim .url " " }}
             {{- $btnURL := printf "%s%s" $baseURLPath $btnRelPath }}

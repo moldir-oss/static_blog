@@ -5,8 +5,7 @@
             {{- if site.Title }}
             {{- $lang := $.Lang }}
             {{- if hasPrefix $.RelPermalink "/en/" }}{{- $lang = "en" }}{{- end }}
-            {{- $parsedBaseURL := urls.Parse site.BaseURL }}
-            {{- $baseURLPath := $parsedBaseURL.Path }}
+            {{- $baseURLPath := strings.TrimSuffix "/" (urls.Parse site.BaseURL).Path }}
             {{- $homeURL := printf "%s/" $baseURLPath }}
             {{- if eq $lang "en" }}{{- $homeURL = printf "%s/en/" $baseURLPath }}{{- end }}
             <a href="{{ $homeURL }}" accesskey="h" title="{{ $label_text }} (Alt + H)">
@@ -67,8 +66,6 @@
             {{- end }}
         </div>
         {{- $currentPage := . }}
-        {{- $parsedBaseURL := urls.Parse site.BaseURL }}
-        {{- $baseURLPath := $parsedBaseURL.Path }}
         {{- $lang := .Lang }}
         {{- if hasPrefix .RelPermalink "/en/" }}{{- $lang = "en" }}{{- end }}
         {{- $enNames := dict "/" "Home" "/posts" "Posts" "/chronologie" "Timeline" "/archives" "Archives" "/search" "Search" "/tags" "Tags" }}
@@ -78,9 +75,10 @@
             {{- if eq $lang "en" }}
                 {{- $showName = index $enNames .URL | default .Name }}
             {{- end }}
-            {{- $relPath := strings.TrimPrefix $baseURLPath .URL }}
-            {{- $showURL := printf "%s%s" $baseURLPath $relPath }}
+            {{- $showURL := .URL }}
             {{- if eq $lang "en" }}
+                {{- $baseURLPath := strings.TrimSuffix "/" (urls.Parse site.BaseURL).Path }}
+                {{- $relPath := strings.TrimPrefix $baseURLPath .URL }}
                 {{- $showURL = printf "%s/en%s" $baseURLPath $relPath }}
             {{- end }}
             {{- $menu_item_url := (cond (strings.HasSuffix $showURL "/") $showURL (printf "%s/" $showURL) ) }}
