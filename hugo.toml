@@ -1,7 +1,7 @@
 baseURL = "https://example.com"
 relativeURLs = true
 defaultContentLanguage = "fr"
-title = "Mon Licenciement"
+title = "Dossier Licenciement"
 theme = ["github.com/adityatelange/hugo-PaperMod"]
 
 copyright = "© 2026 - Tous droits réservés"
@@ -90,8 +90,8 @@ pygmentsUseClasses = true
 
 [params]
   env = "production"
-  description = "Récit complet de mon parcours de licenciement, de l'avertissement à la décision de justice."
-  author = "Votre Nom"
+  description = "Retour complet sur un cas de licenciement, de l'avertissement à la décision de justice."
+  author = "Rédaction"
 
   # PaperMod settings
   defaultTheme = "auto"
@@ -126,30 +126,25 @@ pygmentsUseClasses = true
     safari_pinned_tab = "/safari-pinned-tab.svg"
 
   [params.label]
-    text = "Mon Licenciement"
+    text = "Dossier Licenciement"
     icon = "/apple-touch-icon.png"
     iconHeight = 35
 
   # Profile mode (page d'accueil)
   [params.profileMode]
     enabled = true
-    title = "Mon Histoire de Licenciement"
-    subtitle = "Tous les documents, étapes et la chronologie complète de mon parcours — de l'avertissement à la décision de justice."
+    title = "Le dossier de licenciement"
+    subtitle = "Tous les documents, étapes et la chronologie complète — de l'avertissement à la décision de justice."
     imageUrl = "/images/cover.jpg"
     imageWidth = 120
     imageHeight = 120
-    imageTitle = "Mon Licenciement"
+    imageTitle = "Dossier Licenciement"
     [[params.profileMode.buttons]]
       name = "Lire les articles"
       url = "/posts"
     [[params.profileMode.buttons]]
       name = "Voir la chronologie"
       url = "/posts/chronologie"
-
-  # Social icons
-  [[params.socialIcons]]
-    name = "email"
-    url = "mailto:your@email.com"
 
   # Search
   [params.fuseOpts]

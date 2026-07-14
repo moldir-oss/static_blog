@@ -2,7 +2,7 @@
 title: "L'Avertissement"
 date: 2024-01-15T09:00:00+01:00
 draft: false
-author: "Votre Nom"
+author: "Rédaction"
 description: "Première étape du conflit : réception de l'avertissement disciplinaire."
 categories:
   - Documents
@@ -11,7 +11,7 @@ tags:
   - disciplinaire
   - début
 series:
-  - Mon Licenciement
+  - Dossier Licenciement
 cover:
   image: ""
   alt: ""
@@ -22,16 +22,16 @@ cover:
 
 ## Contexte
 
-Le 15 janvier 2024, j'ai reçu un avertissement disciplinaire de la part de ma direction. Ce document marque le début officiel du conflit qui allait aboutir à mon licenciement.
+Le 15 janvier 2024, le salarié a reçu un avertissement disciplinaire de la part de la direction. Ce document marque le début officiel du conflit qui allait aboutir au licenciement.
 
 ## Contenu de l'avertissement
 
 L'avertissement mentionne les faits suivants :
 - **Date des faits** : 8 janvier 2024
 - **Motif allégué** : "Manquement aux obligations contractuelles"
-- **Délai de réponse** : 48 heures pour présenter mes observations
+- **Délai de réponse** : 48 heures pour présenter ses observations
 
-## Mon analyse
+## Analyse
 
 Cet avertissement est arrivé sans précédent. Aucun entretien préalable n'a été réalisé, aucune mise en garde orale n'a précédé ce document. La procédure semble précipitée et disproportionnée.
 

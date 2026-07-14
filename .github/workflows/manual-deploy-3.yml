@@ -83,9 +83,15 @@ jobs:
           HUGO_ENV: production
           SITE_BASEURL: ${{ github.event.inputs.base_url }}
         run: |
+          BASEURL="$SITE_BASEURL"
+          if [ -z "$BASEURL" ] && [ "${{ github.event.inputs.platform }}" = "github-pages" ]; then
+            OWNER="${GITHUB_REPOSITORY%/*}"
+            REPO="${GITHUB_REPOSITORY#*/}"
+            BASEURL="https://${OWNER}.github.io/${REPO}/"
+          fi
           FLAGS=(--gc --minify --buildDrafts --buildFuture)
-          if [ -n "$SITE_BASEURL" ]; then
-            FLAGS+=(-b "$SITE_BASEURL")
+          if [ -n "$BASEURL" ]; then
+            FLAGS+=(-b "$BASEURL")
           fi
           hugo "${FLAGS[@]}"
 

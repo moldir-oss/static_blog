@@ -2,7 +2,7 @@
 title: "La Décision de Justice"
 date: 2024-09-10T14:00:00+01:00
 draft: false
-author: "Votre Nom"
+author: "Rédaction"
 description: "Décision rendue par le Conseil de Prud'hommes."
 categories:
   - Justice
@@ -11,7 +11,7 @@ tags:
   - décision
   - jugement
 series:
-  - Mon Licenciement
+  - Dossier Licenciement
 cover:
   image: ""
   alt: ""

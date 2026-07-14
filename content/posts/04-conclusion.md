@@ -1,9 +1,9 @@
 ---
-title: "Mes Conclusions devant le Conseil de Prud'hommes"
+title: "Les Conclusions devant le Conseil de Prud'hommes"
 date: 2024-05-20T09:00:00+01:00
 draft: false
-author: "Votre Nom"
-description: "Les conclusions rédigées par mon avocat pour l'audience au fond."
+author: "Rédaction"
+description: "Les conclusions rédigées par l'avocat pour l'audience au fond."
 categories:
   - Justice
 tags:
@@ -11,7 +11,7 @@ tags:
   - conclusions
   - avocat
 series:
-  - Mon Licenciement
+  - Dossier Licenciement
 cover:
   image: ""
   alt: ""
@@ -28,14 +28,14 @@ Après plusieurs tentatives de conciliation infructueuses, l'affaire a été pla
 
 ### Sur la nature du licenciement
 
-Nous demandons au juge de qualifier le licenciement en **licenciement sans cause réelle et sérieuse** et non en faute grave.
+La défense demande au juge de qualifier le licenciement en **licenciement sans cause réelle et sérieuse** et non en faute grave.
 
 ### Sur les indemnités
 
 1. **Indemnité légale de licenciement** : calculée sur l'ancienneté
 2. **Indemnité compensatrice de préavis** : 3 mois
 3. **Indemnité pour licenciement sans cause réelle et sérieuse** : 6 mois de salaire
-4. **Damages and interests** pour procédure abusive
+4. **Dommages et intérêts** pour procédure abusive
 
 ### Sur la rupture du contrat de travail
 

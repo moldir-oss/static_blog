@@ -2,7 +2,7 @@
 title: "La Lettre de Licenciement"
 date: 2024-02-01T10:00:00+01:00
 draft: false
-author: "Votre Nom"
+author: "Rédaction"
 description: "Réception de la lettre de licenciement pour faute grave."
 categories:
   - Documents
@@ -11,7 +11,7 @@ tags:
   - faute grave
   - lettre
 series:
-  - Mon Licenciement
+  - Dossier Licenciement
 cover:
   image: ""
   alt: ""
@@ -22,7 +22,7 @@ cover:
 
 ## Réception du licenciement
 
-Le 1er février 2024, j'ai reçu ma lettre de licenciement pour **faute grave**.
+Le 1er février 2024, le salarié a reçu la lettre de licenciement pour **faute grave**.
 
 ## Éléments clés du document
 
@@ -47,10 +47,10 @@ La qualification en "faute grave" est contestable pour plusieurs raisons :
 
 ---
 
-## Ma réaction immédiate
+## Réaction immédiate
 
-Dès réception de ce document, j'ai pris contact avec :
-- **Mon syndicat** pour un accompagnement
+Dès réception de ce document, le salarié a pris contact avec :
+- **Le syndicat** pour un accompagnement
 - **Un avocat** spécialisé en droit du travail
 - **Le conseil de prud'hommes** pour connaître les délais de recours
 

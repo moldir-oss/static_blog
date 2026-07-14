@@ -2,8 +2,8 @@
 title: "Chronologie Complète"
 date: 2024-09-15T00:00:00+01:00
 draft: false
-author: "Votre Nom"
-description: "Toutes les dates clés de mon parcours de licenciement, du début à la décision de justice."
+author: "Rédaction"
+description: "Toutes les dates clés du licenciement, du début à la décision de justice."
 categories:
   - Chronologie
 tags:
@@ -11,7 +11,7 @@ tags:
   - dates
   - chronologie
 series:
-  - Mon Licenciement
+  - Dossier Licenciement
 cover:
   image: ""
   alt: ""
@@ -32,7 +32,7 @@ Cette page retrace l'intégralité de la chronologie des événements, du premie
 
 ### 15 novembre 2023
 **Premier incident**  
-Tension lors d'une réunion d'équipe. Le manager remet en cause publiquement mon travail. Premier signe visible d'un climat dégradé.
+Tension lors d'une réunion d'équipe. Le manager remet en cause publiquement le travail du salarié. Premier signe visible d'un climat dégradé.
 
 ---
 
@@ -47,8 +47,8 @@ Incident majeur allégué par la direction. Selon eux, manquement grave aux obli
 Réception de l'avertissement disciplinaire. Délai de 48h pour répondre.
 
 ### 17 janvier 2024
-**[Ma Contestation](/posts/02-contestation)**  
-Envoi de ma réponse écrite contestant l'avertissement (lettre recommandée AR).
+**[La Contestation](/posts/02-contestation)**  
+Envoi de la réponse écrite contestant l'avertissement (lettre recommandée AR).
 
 ### 1er février 2024
 **[La Lettre de Licenciement](/posts/03-lettre-licenciement)**  
