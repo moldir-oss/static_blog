@@ -58,3 +58,6 @@ coverage/
 *.temp
 .tmp/
 /site_deploy
+
+# Hugo build lock (transient)
+.hugo_build.lock
