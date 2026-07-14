@@ -2,7 +2,7 @@ baseURL = "https://example.com"
 defaultContentLanguage = "fr"
 languageCode = "fr-fr"
 title = "Mon Licenciement"
-theme = "PaperMod"
+theme = ["github.com/adityatelange/hugo-PaperMod"]
 
 copyright = "© 2026 - Tous droits réservés"
 
@@ -176,7 +176,3 @@ pygmentsUseClasses = true
     lineNos = true
     style = "monokai"
 
-# Hugo Modules
-[module]
-  [[module.imports]]
-    path = "github.com/adityatelange/hugo-PaperMod"
