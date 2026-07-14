@@ -58,7 +58,7 @@ Blog statique généré avec [Hugo](https://gohugo.io/) et le thème [PaperMod](
 
 ## 🛠️ Prérequis
 
-- [Hugo Extended](https://gohugo.io/installation/) ≥ v0.139.0
+- [Hugo Extended](https://gohugo.io/installation/) ≥ v0.164.0
 - Git
 - Node.js ≥ 20 (optionnel, pour Netlify/Cloudflare)
 

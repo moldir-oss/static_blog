@@ -6,7 +6,7 @@ services:
     staticPublishPath: ./public
     envVars:
       - key: HUGO_VERSION
-        value: 0.139.0
+        value: 0.164.0
       - key: HUGO_ENV
         value: production
       - key: HUGO_ENVIRONMENT

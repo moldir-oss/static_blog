@@ -9,7 +9,7 @@
 
 [build.environment]
   # Hugo version to use (must match your local version)
-  HUGO_VERSION = "0.139.0"
+  HUGO_VERSION = "0.164.0"
   # Enable Hugo extended features (SCSS, etc.)
   HUGO_ENABLEGITINFO = "true"
   # Production environment

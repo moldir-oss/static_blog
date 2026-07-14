@@ -19,7 +19,7 @@ pages_build_output_dir = "./public"
   destination = "public"
   # Environment variables for build
   [build.environment]
-    HUGO_VERSION = "0.139.0"
+    HUGO_VERSION = "0.164.0"
     HUGO_ENABLEGITINFO = "true"
     HUGO_ENV = "production"
     HUGO_ENVIRONMENT = "production"

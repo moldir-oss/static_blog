@@ -3,6 +3,6 @@ build:
   command: hugo --gc --minify
   output_dir: public
 environment:
-  HUGO_VERSION: "0.139.0"
+  HUGO_VERSION: "0.164.0"
   HUGO_ENV: production
   HUGO_ENVIRONMENT: production

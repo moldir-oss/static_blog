@@ -1,4 +1,4 @@
-image: peaceiris/hugo:v0.139.0
+image: peaceiris/hugo:v0.164.0
 
 variables:
   HUGO_ENV: production
