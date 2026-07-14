@@ -119,6 +119,7 @@ pygmentsUseClasses = true
   author = "Rédaction"
 
   # PaperMod settings
+  ShowLanguageSelector = true
   defaultTheme = "auto"
   ShowReadingTime = true
   ShowShareButtons = true
