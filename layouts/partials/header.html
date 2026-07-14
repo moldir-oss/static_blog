@@ -61,8 +61,13 @@
             {{- end }}
         </div>
         {{- $currentPage := . }}
+        {{- $lang := .Lang }}
+        {{- if hasPrefix .RelPermalink "/en/" }}{{- $lang = "en" }}{{- end }}
         <ul id="menu" class="menu">
             {{- range site.Menus.main }}
+            {{- $menuPrefix := "fr-" }}
+            {{- if eq $lang "en" }}{{- $menuPrefix = "en-" }}{{- end }}
+            {{- if hasPrefix .Identifier $menuPrefix }}
             {{- $menu_item_url := (cond (strings.HasSuffix .URL "/") .URL (printf "%s/" .URL) ) | relLangURL }}
             {{- $page_url:= $currentPage.RelPermalink }}
             {{- $is_search := eq (site.GetPage .KeyName).Layout `search` }}
@@ -85,10 +90,10 @@
                 </a>
             </li>
             {{- end }}
+            {{- end }}
         </ul>
     </nav>
     {{- if (and (not site.Params.disableLangToggle) hugo.IsMultilingual) }}
-    {{- $lang := .Lang }}
     {{- $flags := dict "fr" "🇫🇷" "en" "🇬🇧" }}
     <ul class="lang-menu lang-switcher">
         {{- range site.Languages }}
