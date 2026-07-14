@@ -3,7 +3,8 @@
 
 [build]
   # Build command - Hugo builds to ./public directory
-  command = "hugo --gc --minify"
+  # --baseURL uses Netlify's own deploy URL at build time (dynamic, not hardcoded)
+  command = "hugo --gc --minify --baseURL ${DEPLOY_PRIME_URL:-$URL}"
   # Publish directory - where Netlify looks for built files
   publish = "public"
 
