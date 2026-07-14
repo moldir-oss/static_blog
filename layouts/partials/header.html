@@ -63,7 +63,7 @@
         {{- $currentPage := . }}
         {{- $lang := .Lang }}
         {{- if hasPrefix .RelPermalink "/en/" }}{{- $lang = "en" }}{{- end }}
-        {{- $enNames := dict "/" "Home" "/posts" "Posts" "/posts/chronologie" "Timeline" "/archives" "Archives" "/search" "Search" "/tags" "Tags" }}
+        {{- $enNames := dict "/" "Home" "/posts" "Posts" "/chronologie" "Timeline" "/archives" "Archives" "/search" "Search" "/tags" "Tags" }}
         <ul id="menu" class="menu">
             {{- range site.Menus.main }}
             {{- $itemLang := "fr" }}

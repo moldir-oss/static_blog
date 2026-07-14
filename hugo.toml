@@ -38,7 +38,7 @@ pygmentsUseClasses = true
     [[languages.fr.menu.main]]
       identifier = "fr-chronologie"
       name = "Chronologie"
-      url = "/posts/chronologie"
+      url = "/chronologie"
       weight = 25
     [[languages.fr.menu.main]]
       identifier = "fr-archives"
@@ -73,7 +73,7 @@ pygmentsUseClasses = true
     [[languages.en.menu.main]]
       identifier = "en-timeline"
       name = "Timeline"
-      url = "/posts/chronologie"
+      url = "/chronologie"
       weight = 25
     [[languages.en.menu.main]]
       identifier = "en-archives"
@@ -110,7 +110,7 @@ pygmentsUseClasses = true
         url = "/posts"
       [[languages.en.params.profileMode.buttons]]
         name = "View the timeline"
-        url = "/posts/chronologie"
+      url = "/chronologie"
 
 [params]
   env = "production"
@@ -169,7 +169,7 @@ pygmentsUseClasses = true
       url = "/posts"
     [[params.profileMode.buttons]]
       name = "Voir la chronologie"
-      url = "/posts/chronologie"
+      url = "/chronologie"
 
   # Search
   [params.fuseOpts]
