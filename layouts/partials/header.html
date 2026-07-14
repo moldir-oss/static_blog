@@ -83,7 +83,8 @@
             {{- range $menuItems }}
             {{- $showURL := .URL }}
             {{- if eq $detectedLang "en" }}
-                {{- $showURL = printf "%s%s" $baseURLPath .URL }}
+                {{- $relPath := strings.TrimPrefix $baseURLPath .URL }}
+                {{- $showURL = printf "%s/en%s" $baseURLPath $relPath }}
             {{- end }}
             {{- $menu_item_url := (cond (strings.HasSuffix $showURL "/") $showURL (printf "%s/" $showURL) ) }}
             {{- $page_url := $currentPage.RelPermalink }}
