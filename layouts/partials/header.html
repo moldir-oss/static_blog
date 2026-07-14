@@ -5,9 +5,14 @@
             {{- if site.Title }}
             {{- $lang := $.Lang }}
             {{- if hasPrefix $.RelPermalink "/en/" }}{{- $lang = "en" }}{{- end }}
-            {{- $baseURLPath := strings.TrimSuffix "/" (urls.Parse site.BaseURL).Path }}
-            {{- $homeURL := printf "%s/" $baseURLPath }}
-            {{- if eq $lang "en" }}{{- $homeURL = printf "%s/en/" $baseURLPath }}{{- end }}
+            {{- $homeURL := site.Home.RelPermalink }}
+            {{- if eq $lang "en" }}
+                {{- range site.Home.Translations }}
+                    {{- if eq .Lang "en" }}
+                        {{- $homeURL = .RelPermalink }}
+                    {{- end }}
+                {{- end }}
+            {{- end }}
             <a href="{{ $homeURL }}" accesskey="h" title="{{ $label_text }} (Alt + H)">
                 {{- if site.Params.label.icon }}
                 {{- $img := resources.Get site.Params.label.icon }}
@@ -72,14 +77,17 @@
         <ul id="menu" class="menu">
             {{- range site.Menus.main }}
             {{- $showName := .Name }}
-            {{- if eq $lang "en" }}
-                {{- $showName = index $enNames .URL | default .Name }}
-            {{- end }}
             {{- $showURL := .URL }}
             {{- if eq $lang "en" }}
-                {{- $baseURLPath := strings.TrimSuffix "/" (urls.Parse site.BaseURL).Path }}
-                {{- $relPath := strings.TrimPrefix $baseURLPath .URL }}
-                {{- $showURL = printf "%s/en%s" $baseURLPath $relPath }}
+                {{- $showName = index $enNames .URL | default .Name }}
+                {{- $page := site.GetPage .URL }}
+                {{- if $page }}
+                    {{- range $page.Translations }}
+                        {{- if eq .Lang "en" }}
+                            {{- $showURL = .RelPermalink }}
+                        {{- end }}
+                    {{- end }}
+                {{- end }}
             {{- end }}
             {{- $menu_item_url := (cond (strings.HasSuffix $showURL "/") $showURL (printf "%s/" $showURL) ) }}
             {{- $page_url := $currentPage.RelPermalink }}

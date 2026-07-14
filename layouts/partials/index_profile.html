@@ -38,12 +38,17 @@
         <div class="buttons">
             {{- $lang := $.Lang }}
             {{- if hasPrefix $.RelPermalink "/en/" }}{{- $lang = "en" }}{{- end }}
-            {{- $baseURLPath := strings.TrimSuffix "/" (urls.Parse site.BaseURL).Path }}
             {{- range . }}
-            {{- $btnRelPath := trim .url " " }}
-            {{- $btnURL := printf "%s%s" $baseURLPath $btnRelPath }}
+            {{- $btnURL := trim .url " " }}
             {{- if eq $lang "en" }}
-                {{- $btnURL = printf "%s/en%s" $baseURLPath $btnRelPath }}
+                {{- $page := site.GetPage $btnURL }}
+                {{- if $page }}
+                    {{- range $page.Translations }}
+                        {{- if eq .Lang "en" }}
+                            {{- $btnURL = .RelPermalink }}
+                        {{- end }}
+                    {{- end }}
+                {{- end }}
             {{- end }}
             <a class="button" href="{{ $btnURL }}" rel="noopener" title="{{ .name }}">
                 <span class="button-inner">
