@@ -4,12 +4,14 @@
 
 <!DOCTYPE html>
 {{- $theme := site.Params.defaultTheme | default "auto" }}
+{{- $htmlLang := .Lang }}
+{{- if strings.Contains .RelPermalink "/en/" }}{{- $htmlLang = "en" }}{{- end }}
 {{- if eq $theme "dark" }}
-<html lang="{{ .Lang }}" dir="{{ .Language.Direction | default "auto" }}" data-theme="dark">
+<html lang="{{ $htmlLang }}" dir="{{ .Language.Direction | default "auto" }}" data-theme="dark">
 {{- else if eq $theme "light" }}
-<html lang="{{ .Lang }}" dir="{{ .Language.Direction | default "auto" }}" data-theme="light">
+<html lang="{{ $htmlLang }}" dir="{{ .Language.Direction | default "auto" }}" data-theme="light">
 {{- else }}
-<html lang="{{ .Lang }}" dir="{{ .Language.Direction | default "auto" }}" data-theme="auto">
+<html lang="{{ $htmlLang }}" dir="{{ .Language.Direction | default "auto" }}" data-theme="auto">
 {{- end }}
 
 <head>

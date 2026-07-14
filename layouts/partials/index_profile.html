@@ -1,6 +1,6 @@
 <div class="profile">
     {{- $detectedLang := $.Lang }}
-    {{- if hasPrefix $.RelPermalink "/en/" }}{{- $detectedLang = "en" }}{{- end }}
+    {{- if strings.Contains $.RelPermalink "/en/" }}{{- $detectedLang = "en" }}{{- end }}
     {{- $targetSite := site }}
     {{- range site.Sites }}
         {{- if eq .Language.Lang $detectedLang }}

@@ -4,7 +4,7 @@
             {{- $label_text := (site.Params.label.text | default site.Title) }}
             {{- if site.Title }}
             {{- $detectedLang := $.Lang }}
-            {{- if hasPrefix $.RelPermalink "/en/" }}{{- $detectedLang = "en" }}{{- end }}
+            {{- if strings.Contains $.RelPermalink "/en/" }}{{- $detectedLang = "en" }}{{- end }}
             {{- $baseURLPath := strings.TrimSuffix "/" (urls.Parse site.BaseURL).Path }}
             {{- $homeURL := printf "%s/" $baseURLPath }}
             {{- if eq $detectedLang "en" }}
@@ -69,7 +69,7 @@
         </div>
         {{- $currentPage := . }}
         {{- $detectedLang := .Lang }}
-        {{- if hasPrefix .RelPermalink "/en/" }}{{- $detectedLang = "en" }}{{- end }}
+        {{- if strings.Contains .RelPermalink "/en/" }}{{- $detectedLang = "en" }}{{- end }}
         {{- $baseURLPath := strings.TrimSuffix "/" (urls.Parse site.BaseURL).Path }}
         {{- $targetSite := site }}
         {{- $menuItems := site.Menus.main }}
