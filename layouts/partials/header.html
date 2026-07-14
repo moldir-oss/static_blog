@@ -57,39 +57,6 @@
                     </svg>
                 </button>
                 {{- end }}
-
-                {{- if (not site.Params.disableLangToggle) }}
-                    {{- $lang := .Lang}}
-                    {{- $separator := or $label_text (not site.Params.disableThemeToggle)}}
-                    {{- if $separator }}<span class="nav-sep">|</span>{{ end }}
-                    <ul class="lang-menu">
-                        {{- range $code, $l := site.Languages -}}
-                        {{- if $l.Params.flag }}
-                        {{- $url := "" }}
-                        {{- if eq $code $lang }}
-                        {{- $url = $.RelPermalink }}
-                        {{- else }}
-                        {{- with where $.Translations "Lang" $code }}
-                        {{- $url = (index . 0).RelPermalink }}
-                        {{- end }}
-                        {{- end }}
-                        {{- if not $url }}
-                        {{- with where site.Sites "Language.Lang" $code }}
-                        {{- $url = (index . 0).Home.RelPermalink }}
-                        {{- end }}
-                        {{- end }}
-                        <li>
-                            <a href="{{- $url -}}" title="{{ $l.Params.languageAltTitle | default ($l.Label | emojify) | default ($code | title) }}"
-                                aria-label="{{ $l.Label | default ($code | title) }}"
-                                class="lang-flag{{- if eq $lang $code }} active{{- end }}"
-                                hreflang="{{ $code }}">
-                                {{- $l.Params.flag | emojify -}}
-                            </a>
-                        </li>
-                        {{- end -}}
-                        {{- end}}
-                    </ul>
-                {{- end }}
             </div>
             {{- end }}
         </div>
@@ -120,4 +87,35 @@
             {{- end }}
         </ul>
     </nav>
+    {{- if (and (not site.Params.disableLangToggle) hugo.IsMultilingual) }}
+    {{- $lang := .Lang}}
+    <ul class="lang-menu lang-switcher">
+        {{- range $code, $l := site.Languages -}}
+        {{- if $l.Params.flag }}
+        {{- $url := "" }}
+        {{- if eq $code $lang }}
+        {{- $url = $.RelPermalink }}
+        {{- else }}
+        {{- with where $.Translations "Lang" $code }}
+        {{- $url = (index . 0).RelPermalink }}
+        {{- else }}
+        {{- with where site.Home.Translations "Lang" $code }}
+        {{- $url = (index . 0).RelPermalink }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
+        {{- if $url }}
+        <li>
+            <a href="{{- $url -}}" title="{{ $l.Params.languageAltTitle | default ($l.Label | emojify) | default ($code | title) }}"
+                aria-label="{{ $l.Label | default ($code | title) }}"
+                class="lang-flag{{- if eq $lang $code }} active{{- end }}"
+                hreflang="{{ $code }}">
+                {{- $l.Params.flag | emojify -}}
+            </a>
+        </li>
+        {{- end -}}
+        {{- end -}}
+        {{- end}}
+    </ul>
+    {{- end }}
 </header>

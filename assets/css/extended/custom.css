@@ -29,25 +29,26 @@ pre.chroma {
 
 /* Buttons kept at PaperMod default (removed custom --primary background that broke contrast) */
 
-/* Language switcher — classic flag toggle, top right */
-.logo-switches {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-left: auto;
-}
-
-.lang-menu {
+/* Language switcher — classic flag toggle, pinned top-right of the page */
+.lang-switcher {
+  position: fixed;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 1000;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 0.35rem;
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0.25rem 0.4rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.lang-menu li {
+.lang-switcher li {
   display: inline-flex;
 }
 
@@ -72,25 +73,6 @@ pre.chroma {
 .lang-flag.active {
   filter: grayscale(0) opacity(1);
   box-shadow: 0 0 0 1.5px var(--primary);
-}
-
-.nav-sep {
-  opacity: 0.4;
-}
-
-/* Keep the header nav aligned with the flag switch on the right */
-.header-nav {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-}
-
-.header-nav .logo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 
 /* Search page */
