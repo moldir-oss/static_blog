@@ -1,5 +1,4 @@
 baseURL = "https://example.com"
-relativeURLs = true
 defaultContentLanguage = "fr"
 title = "Dossier Licenciement"
 theme = ["github.com/adityatelange/hugo-PaperMod"]
