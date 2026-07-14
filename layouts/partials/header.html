@@ -5,11 +5,10 @@
             {{- if site.Title }}
             {{- $detectedLang := $.Lang }}
             {{- if hasPrefix $.RelPermalink "/en/" }}{{- $detectedLang = "en" }}{{- end }}
-            {{- $homeURL := site.Home.RelPermalink }}
-            {{- range site.Sites }}
-                {{- if eq .Language.Lang $detectedLang }}
-                    {{- $homeURL = .Home.RelPermalink }}
-                {{- end }}
+            {{- $baseURLPath := strings.TrimSuffix "/" (urls.Parse site.BaseURL).Path }}
+            {{- $homeURL := printf "%s/" $baseURLPath }}
+            {{- if eq $detectedLang "en" }}
+                {{- $homeURL = printf "%s/en/" $baseURLPath }}
             {{- end }}
             <a href="{{ $homeURL }}" accesskey="h" title="{{ $label_text }} (Alt + H)">
                 {{- if site.Params.label.icon }}
@@ -71,6 +70,7 @@
         {{- $currentPage := . }}
         {{- $detectedLang := .Lang }}
         {{- if hasPrefix .RelPermalink "/en/" }}{{- $detectedLang = "en" }}{{- end }}
+        {{- $baseURLPath := strings.TrimSuffix "/" (urls.Parse site.BaseURL).Path }}
         {{- $targetSite := site }}
         {{- $menuItems := site.Menus.main }}
         {{- range site.Sites }}
@@ -79,10 +79,12 @@
                 {{- $menuItems = .Menus.main }}
             {{- end }}
         {{- end }}
-        {{- $basePath := $targetSite.Home.RelPermalink }}
         <ul id="menu" class="menu">
             {{- range $menuItems }}
-            {{- $showURL := printf "%s%s" $basePath (strings.TrimPrefix "/" .URL) }}
+            {{- $showURL := .URL }}
+            {{- if eq $detectedLang "en" }}
+                {{- $showURL = printf "%s%s" $baseURLPath .URL }}
+            {{- end }}
             {{- $menu_item_url := (cond (strings.HasSuffix $showURL "/") $showURL (printf "%s/" $showURL) ) }}
             {{- $page_url := $currentPage.RelPermalink }}
             <li>

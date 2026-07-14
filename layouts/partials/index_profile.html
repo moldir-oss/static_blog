@@ -44,9 +44,12 @@
 
         {{- with .buttons }}
         <div class="buttons">
-            {{- $basePath := $targetSite.Home.RelPermalink }}
+            {{- $baseURLPath := strings.TrimSuffix "/" (urls.Parse site.BaseURL).Path }}
             {{- range . }}
-            {{- $btnURL := printf "%s%s" $basePath (strings.TrimPrefix "/" (trim .url " ")) }}
+            {{- $btnURL := printf "%s%s" $baseURLPath (trim .url " ") }}
+            {{- if eq $detectedLang "en" }}
+                {{- $btnURL = printf "%s/en%s" $baseURLPath (trim .url " ") }}
+            {{- end }}
             <a class="button" href="{{ $btnURL }}" rel="noopener" title="{{ .name }}">
                 <span class="button-inner">
                     {{ .name }}
