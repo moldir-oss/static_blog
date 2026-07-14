@@ -1,4 +1,4 @@
-baseURL = "https://example.com"
+baseURL = "https://moldir-oss.github.io/static_blog/"
 defaultContentLanguage = "fr"
 title = "Dossier Licenciement"
 theme = ["github.com/adityatelange/hugo-PaperMod"]

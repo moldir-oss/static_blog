@@ -9,6 +9,7 @@ hugo.linux
 
 # Hugo modules
 /vendor/
+/themes/
 
 # Build outputs
 site.zip
