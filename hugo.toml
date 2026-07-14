@@ -1,6 +1,5 @@
 baseURL = "https://example.com"
 defaultContentLanguage = "fr"
-languageCode = "fr-fr"
 title = "Mon Licenciement"
 theme = ["github.com/adityatelange/hugo-PaperMod"]
 
@@ -20,56 +19,70 @@ pygmentsUseClasses = true
 # Multilingue : Français par défaut, Anglais prêt
 [languages]
   [languages.fr]
-    languageName = "Français"
+    locale = "fr-fr"
+    label = "Français"
     weight = 1
     [[languages.fr.menu.main]]
+      identifier = "fr-accueil"
       name = "Accueil"
       url = "/"
       weight = 10
     [[languages.fr.menu.main]]
+      identifier = "fr-articles"
       name = "Articles"
       url = "/posts"
       weight = 20
     [[languages.fr.menu.main]]
+      identifier = "fr-chronologie"
       name = "Chronologie"
       url = "/posts/chronologie"
       weight = 25
     [[languages.fr.menu.main]]
+      identifier = "fr-archives"
       name = "Archives"
       url = "/archives"
       weight = 30
     [[languages.fr.menu.main]]
+      identifier = "fr-recherche"
       name = "Recherche"
       url = "/search"
       weight = 40
     [[languages.fr.menu.main]]
+      identifier = "fr-tags"
       name = "Tags"
       url = "/tags"
       weight = 50
   [languages.en]
-    languageName = "English"
+    locale = "en-us"
+    label = "English"
     weight = 2
     [[languages.en.menu.main]]
+      identifier = "en-home"
       name = "Home"
       url = "/"
       weight = 10
     [[languages.en.menu.main]]
+      identifier = "en-posts"
       name = "Posts"
       url = "/posts"
       weight = 20
     [[languages.en.menu.main]]
+      identifier = "en-timeline"
       name = "Timeline"
       url = "/posts/timeline"
       weight = 25
     [[languages.en.menu.main]]
+      identifier = "en-archives"
       name = "Archives"
       url = "/archives"
       weight = 30
     [[languages.en.menu.main]]
+      identifier = "en-search"
       name = "Search"
       url = "/search"
       weight = 40
     [[languages.en.menu.main]]
+      identifier = "en-tags"
       name = "Tags"
       url = "/tags"
       weight = 50
