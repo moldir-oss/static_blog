@@ -40,6 +40,10 @@ on:
         description: "AWS Region (uniquement aws-amplify, ex: us-east-1)."
         required: false
         type: string
+      base_url:
+        description: "URL finale du site (ex: https://monsite.vercel.app). Utilisée comme HUGO_BASEURL pour sitemap/RSS/canonical. Laisser vide pour liens relatifs uniquement."
+        required: false
+        type: string
 
 env:
   HUGO_VERSION: "0.164.0"
@@ -77,7 +81,13 @@ jobs:
         env:
           HUGO_ENVIRONMENT: production
           HUGO_ENV: production
-        run: hugo --gc --minify --buildDrafts --buildFuture
+          SITE_BASEURL: ${{ github.event.inputs.base_url }}
+        run: |
+          FLAGS=(--gc --minify --buildDrafts --buildFuture)
+          if [ -n "$SITE_BASEURL" ]; then
+            FLAGS+=(-b "$SITE_BASEURL")
+          fi
+          hugo "${FLAGS[@]}"
 
       - name: Upload site artifact
         uses: actions/upload-artifact@v4

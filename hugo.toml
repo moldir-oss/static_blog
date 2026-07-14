@@ -1,4 +1,5 @@
 baseURL = "https://example.com"
+relativeURLs = true
 defaultContentLanguage = "fr"
 title = "Mon Licenciement"
 theme = ["github.com/adityatelange/hugo-PaperMod"]
