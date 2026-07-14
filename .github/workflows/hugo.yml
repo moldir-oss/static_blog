@@ -110,23 +110,33 @@ jobs:
   deploy-netlify:
     name: Deploy to Netlify
     needs: build
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && secrets.NETLIFY_AUTH_TOKEN != '' && secrets.NETLIFY_SITE_ID != ''
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
+      - name: Check secrets
+        id: check
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: echo "enabled=$([ -n \"$NETLIFY_AUTH_TOKEN\" ] && [ -n \"$NETLIFY_SITE_ID\" ] && echo true || echo false)" >> $GITHUB_OUTPUT
+
       - name: Download artifact
-        uses: actions/download-artifact@v8
+        if: steps.check.outputs.enabled == 'true'
+        uses: actions/download-artifact@v4
         with:
           name: hugo-site-zip
           path: ./public
 
       - name: Unzip site
+        if: steps.check.outputs.enabled == 'true'
         run: |
           cd public
           unzip -o site.zip
           rm site.zip
 
       - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v4
+        if: steps.check.outputs.enabled == 'true'
+        uses: nwtgck/actions-netlify@v3
         with:
           publish-dir: ./public
           production-branch: main
@@ -142,22 +152,32 @@ jobs:
   deploy-cloudflare:
     name: Deploy to Cloudflare Pages
     needs: build
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != ''
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
+      - name: Check secrets
+        id: check
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: echo "enabled=$([ -n \"$CLOUDFLARE_API_TOKEN\" ] && [ -n \"$CLOUDFLARE_ACCOUNT_ID\" ] && echo true || echo false)" >> $GITHUB_OUTPUT
+
       - name: Download artifact
-        uses: actions/download-artifact@v8
+        if: steps.check.outputs.enabled == 'true'
+        uses: actions/download-artifact@v4
         with:
           name: hugo-site-zip
           path: ./public
 
       - name: Unzip site
+        if: steps.check.outputs.enabled == 'true'
         run: |
           cd public
           unzip -o site.zip
           rm site.zip
 
       - name: Deploy to Cloudflare Pages
+        if: steps.check.outputs.enabled == 'true'
         uses: cloudflare/pages-action@v1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -170,23 +190,34 @@ jobs:
   deploy-vercel:
     name: Deploy to Vercel
     needs: build
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && secrets.VERCEL_TOKEN != '' && secrets.VERCEL_ORG_ID != '' && secrets.VERCEL_PROJECT_ID != ''
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
+      - name: Check secrets
+        id: check
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: echo "enabled=$([ -n \"$VERCEL_TOKEN\" ] && [ -n \"$VERCEL_ORG_ID\" ] && [ -n \"$VERCEL_PROJECT_ID\" ] && echo true || echo false)" >> $GITHUB_OUTPUT
+
       - name: Download artifact
-        uses: actions/download-artifact@v8
+        if: steps.check.outputs.enabled == 'true'
+        uses: actions/download-artifact@v4
         with:
           name: hugo-site-zip
           path: ./public
 
       - name: Unzip site
+        if: steps.check.outputs.enabled == 'true'
         run: |
           cd public
           unzip -o site.zip
           rm site.zip
 
       - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v42
+        if: steps.check.outputs.enabled == 'true'
+        uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
