@@ -1,5 +1,13 @@
 <div class="profile">
-    {{- with site.Params.profileMode }}
+    {{- $detectedLang := $.Lang }}
+    {{- if hasPrefix $.RelPermalink "/en/" }}{{- $detectedLang = "en" }}{{- end }}
+    {{- $targetSite := site }}
+    {{- range site.Sites }}
+        {{- if eq .Language.Lang $detectedLang }}
+            {{- $targetSite = . }}
+        {{- end }}
+    {{- end }}
+    {{- with $targetSite.Params.profileMode }}
     <div class="profile_inner">
         {{- if .imageUrl -}}
         {{- $img := "" }}
@@ -36,20 +44,9 @@
 
         {{- with .buttons }}
         <div class="buttons">
-            {{- $lang := $.Lang }}
-            {{- if hasPrefix $.RelPermalink "/en/" }}{{- $lang = "en" }}{{- end }}
+            {{- $basePath := $targetSite.Home.RelPermalink }}
             {{- range . }}
-            {{- $btnURL := trim .url " " }}
-            {{- if eq $lang "en" }}
-                {{- $page := site.GetPage $btnURL }}
-                {{- if $page }}
-                    {{- range $page.Translations }}
-                        {{- if eq .Lang "en" }}
-                            {{- $btnURL = .RelPermalink }}
-                        {{- end }}
-                    {{- end }}
-                {{- end }}
-            {{- end }}
+            {{- $btnURL := printf "%s%s" $basePath (strings.TrimPrefix "/" (trim .url " ")) }}
             <a class="button" href="{{ $btnURL }}" rel="noopener" title="{{ .name }}">
                 <span class="button-inner">
                     {{ .name }}

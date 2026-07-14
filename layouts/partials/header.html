@@ -3,14 +3,12 @@
         <div class="logo">
             {{- $label_text := (site.Params.label.text | default site.Title) }}
             {{- if site.Title }}
-            {{- $lang := $.Lang }}
-            {{- if hasPrefix $.RelPermalink "/en/" }}{{- $lang = "en" }}{{- end }}
+            {{- $detectedLang := $.Lang }}
+            {{- if hasPrefix $.RelPermalink "/en/" }}{{- $detectedLang = "en" }}{{- end }}
             {{- $homeURL := site.Home.RelPermalink }}
-            {{- if eq $lang "en" }}
-                {{- range site.Home.Translations }}
-                    {{- if eq .Lang "en" }}
-                        {{- $homeURL = .RelPermalink }}
-                    {{- end }}
+            {{- range site.Sites }}
+                {{- if eq .Language.Lang $detectedLang }}
+                    {{- $homeURL = .Home.RelPermalink }}
                 {{- end }}
             {{- end }}
             <a href="{{ $homeURL }}" accesskey="h" title="{{ $label_text }} (Alt + H)">
@@ -71,24 +69,26 @@
             {{- end }}
         </div>
         {{- $currentPage := . }}
-        {{- $lang := .Lang }}
-        {{- if hasPrefix .RelPermalink "/en/" }}{{- $lang = "en" }}{{- end }}
-        {{- $enNames := dict "/" "Home" "/static_blog/" "Home" "/static_blog/posts" "Posts" "/static_blog/chronologie" "Timeline" "/static_blog/archives" "Archives" "/static_blog/search" "Search" "/static_blog/tags" "Tags" }}
-        {{- $enURLs := dict "/" "/en/" "/static_blog/" "/en/" "/static_blog/posts" "/en/posts/" "/static_blog/chronologie" "/en/chronologie/" "/static_blog/archives" "/en/archives/" "/static_blog/search" "/en/search/" "/static_blog/tags" "/en/tags/" }}
-        <ul id="menu" class="menu">
-            {{- range site.Menus.main }}
-            {{- $showName := .Name }}
-            {{- $showURL := .URL }}
-            {{- if eq $lang "en" }}
-                {{- $showName = index $enNames .URL | default .Name }}
-                {{- $showURL = index $enURLs .URL | default .URL }}
+        {{- $detectedLang := .Lang }}
+        {{- if hasPrefix .RelPermalink "/en/" }}{{- $detectedLang = "en" }}{{- end }}
+        {{- $targetSite := site }}
+        {{- $menuItems := site.Menus.main }}
+        {{- range site.Sites }}
+            {{- if eq .Language.Lang $detectedLang }}
+                {{- $targetSite = . }}
+                {{- $menuItems = .Menus.main }}
             {{- end }}
+        {{- end }}
+        {{- $basePath := $targetSite.Home.RelPermalink }}
+        <ul id="menu" class="menu">
+            {{- range $menuItems }}
+            {{- $showURL := printf "%s%s" $basePath (strings.TrimPrefix "/" .URL) }}
             {{- $menu_item_url := (cond (strings.HasSuffix $showURL "/") $showURL (printf "%s/" $showURL) ) }}
             {{- $page_url := $currentPage.RelPermalink }}
             <li>
-                <a href="{{ $showURL }}" title="{{ $showName }}">
+                <a href="{{ $showURL }}" title="{{ .Name }}">
                     <span {{- if eq $menu_item_url $page_url }} class="active" {{- end }}>
-                        {{- $showName -}}
+                        {{- .Name -}}
                     </span>
                 </a>
             </li>
