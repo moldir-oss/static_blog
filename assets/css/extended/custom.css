@@ -1,17 +1,7 @@
-/* Custom styles for Mon Licenciement blog */
+/* Custom styles for the Dossier Licenciement blog */
 /* Add your custom CSS here - this file is loaded by PaperMod */
 
-/* Custom primary color - bordeaux red for the theme */
-:root {
-  --primary: #c0392b;
-  --primary-hover: #a93226;
-}
-
-/* Dark mode adjustments */
-.dark {
-  --primary: #e74c3c;
-  --primary-hover: #c0392b;
-}
+/* Primary color left to PaperMod default (removed custom bordeaux/red override) */
 
 /* Home page profile mode image */
 .profileMode-img {
