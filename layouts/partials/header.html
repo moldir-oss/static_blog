@@ -73,21 +73,15 @@
         {{- $currentPage := . }}
         {{- $lang := .Lang }}
         {{- if hasPrefix .RelPermalink "/en/" }}{{- $lang = "en" }}{{- end }}
-        {{- $enNames := dict "/" "Home" "/posts" "Posts" "/chronologie" "Timeline" "/archives" "Archives" "/search" "Search" "/tags" "Tags" }}
+        {{- $enNames := dict "/" "Home" "/static_blog/" "Home" "/static_blog/posts" "Posts" "/static_blog/chronologie" "Timeline" "/static_blog/archives" "Archives" "/static_blog/search" "Search" "/static_blog/tags" "Tags" }}
+        {{- $enURLs := dict "/" "/en/" "/static_blog/" "/en/" "/static_blog/posts" "/en/posts/" "/static_blog/chronologie" "/en/chronologie/" "/static_blog/archives" "/en/archives/" "/static_blog/search" "/en/search/" "/static_blog/tags" "/en/tags/" }}
         <ul id="menu" class="menu">
             {{- range site.Menus.main }}
             {{- $showName := .Name }}
             {{- $showURL := .URL }}
             {{- if eq $lang "en" }}
                 {{- $showName = index $enNames .URL | default .Name }}
-                {{- $page := site.GetPage .URL }}
-                {{- if $page }}
-                    {{- range $page.Translations }}
-                        {{- if eq .Lang "en" }}
-                            {{- $showURL = .RelPermalink }}
-                        {{- end }}
-                    {{- end }}
-                {{- end }}
+                {{- $showURL = index $enURLs .URL | default .URL }}
             {{- end }}
             {{- $menu_item_url := (cond (strings.HasSuffix $showURL "/") $showURL (printf "%s/" $showURL) ) }}
             {{- $page_url := $currentPage.RelPermalink }}
