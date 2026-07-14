@@ -1,16 +1,16 @@
 ---
-title: "Chronologie Complète"
+title: "Full Timeline"
 slug: "chronologie"
 date: 2024-09-15T00:00:00+01:00
 draft: false
 author: "Rédaction"
-description: "Toutes les dates clés du licenciement, du début à la décision de justice."
+description: "All key dates of the dismissal, from the beginning to the court decision."
 categories:
-  - Chronologie
+  - Timeline
 tags:
   - timeline
   - dates
-  - chronologie
+  - chronology
 series:
   - Dossier Licenciement
 cover:
@@ -21,9 +21,9 @@ cover:
   hidden: true
 ---
 
-## Vue d'ensemble
+## Overview
 
-Cette page retrace l'intégralité de la chronologie des événements, du premier incident jusqu'à la décision de justice.
+This page traces the entire chronology of events, from the first incident to the court decision.
 
 ---
 
@@ -31,59 +31,59 @@ Cette page retrace l'intégralité de la chronologie des événements, du premie
 
 ## 2023
 
-### 15 novembre 2023
-**Premier incident**  
-Tension lors d'une réunion d'équipe. Le manager remet en cause publiquement le travail du salarié. Premier signe visible d'un climat dégradé.
+### 15 November 2023
+**First incident**  
+Tension during a team meeting. The manager publicly calls the employee's work into question. First visible sign of a degraded atmosphere.
 
 ---
 
 ## 2024
 
-### 8 janvier 2024
-**Les faits reprochés**  
-Incident majeur allégué par la direction. Selon eux, manquement grave aux obligations contractuelles.
+### 8 January 2024
+**The alleged facts**  
+Major incident alleged by management. According to them, a serious breach of contractual obligations.
 
-### 15 janvier 2024
-**[L'Avertissement](/posts/01-avertissement)**  
-Réception de l'avertissement disciplinaire. Délai de 48h pour répondre.
+### 15 January 2024
+**[The Warning](/en/posts/01-avertissement)**  
+Receipt of the disciplinary warning. 48h to respond.
 
-### 17 janvier 2024
-**[La Contestation](/posts/02-contestation)**  
-Envoi de la réponse écrite contestant l'avertissement (lettre recommandée AR).
+### 17 January 2024
+**[The Dispute](/en/posts/02-contestation)**  
+Sending the written response challenging the warning (registered letter with AR).
 
-### 1er février 2024
-**[La Lettre de Licenciement](/posts/03-lettre-licenciement)**  
-Réception de la lettre de licenciement pour faute grave. Effet immédiat.
+### 1 February 2024
+**[The Dismissal Letter](/en/posts/03-lettre-licenciement)**  
+Receipt of the dismissal letter for gross misconduct. Immediate effect.
 
-### 15 février 2024
-**Saisine du Conseil de Prud'hommes**  
-Dépôt de la demande de conciliation auprès du CPAM de [ville].
+### 15 February 2024
+**Filing with the employment tribunal**  
+Submission of the conciliation request to the CPAM of [ville].
 
-### 20 mars 2024
-**Audience de conciliation**  
-Première audience. Aucun accord trouvé. L'affaire est renvoyée au fond.
+### 20 March 2024
+**Conciliation hearing**  
+First hearing. No agreement reached. The case is referred to the merits.
 
-### 20 mai 2024
-**[Audience au fond](/posts/04-conclusion)**  
-Plaidoirie et dépôt des conclusions écrites.
+### 20 May 2024
+**[Hearing on the merits](/en/posts/04-conclusion)**  
+Pleading and filing of written submissions.
 
-### 10 septembre 2024
-**[Décision de justice](/posts/05-decision-justice)**  
-Le Conseil de Prud'hommes rend son jugement. Faute grave écartée.
+### 10 September 2024
+**[Court decision](/en/posts/05-decision-justice)**  
+The Conseil de Prud'hommes renders its judgement. Gross misconduct set aside.
 
-### 25 septembre 2024
-**Appel de l'employeur**  
-Notification de l'appel par l'employeur. L'affaire continue.
+### 25 September 2024
+**Employer's appeal**  
+Notification of the appeal by the employer. The case continues.
 
 {{< /timeline >}}
 
 ---
 
-## Statistiques
+## Statistics
 
-| Indicateur | Valeur |
-|-----------|--------|
-| Durée totale (début à jugement) | ~10 mois |
-| Nombre d'audiences | 2 (conciliation + fond) |
-| Décisions favorables | Qualification rejetée, indemnités accordées |
-| Recours en cours | Appel de l'employeur |
+| Indicator | Value |
+|-----------|-------|
+| Total duration (start to judgement) | ~10 months |
+| Number of hearings | 2 (conciliation + merits) |
+| Favourable decisions | Qualification rejected, damages awarded |
+| Ongoing appeal | Employer's appeal |

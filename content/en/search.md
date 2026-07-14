@@ -1,6 +1,6 @@
 ---
-title: "Recherche"
+title: "Search"
 layout: "search"
 summary: "search"
-placeholder: "Rechercher un article, un document..."
+placeholder: "Search an article, a document..."
 ---

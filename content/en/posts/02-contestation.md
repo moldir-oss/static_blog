@@ -1,15 +1,15 @@
 ---
-title: "La Contestation"
+title: "The Dispute"
 date: 2024-01-17T14:30:00+01:00
 draft: false
 author: "Rédaction"
-description: "Réponse écrite contestant l'avertissement disciplinaire."
+description: "Written response challenging the disciplinary warning."
 categories:
   - Documents
 tags:
-  - contestation
-  - avertissement
-  - réponse
+  - dispute
+  - warning
+  - response
 series:
   - Dossier Licenciement
 cover:
@@ -20,27 +20,27 @@ cover:
   hidden: true
 ---
 
-## La réponse à l'avertissement
+## Response to the warning
 
-Conformément à ses droits, le salarié a rédigé une contestation écrite dans le délai de 48 heures imparti.
+In accordance with their rights, the employee drafted a written dispute within the 48-hour deadline.
 
-## Arguments principaux
+## Main arguments
 
-1. **Aucune procédure préalable** : Aucun entretien préalable n'a été réalisé avant l'envoi de l'avertissement.
-2. **Manquement au contradictoire** : Le salarié n'a pas été entendu sur les faits reprochés avant la décision.
-3. **Détournement de procédure** : Les faits mentionnés ne correspondent pas à la réalité des événements du 8 janvier.
+1. **No prior procedure**: No prior interview was conducted before the warning was sent.
+2. **Breach of the adversarial principle**: The employee was not heard on the alleged facts before the decision.
+3. **Procedural abuse**: The facts mentioned do not match what actually happened on 8 January.
 
-## Texte intégral de la contestation
+## Full text of the dispute
 
-*[Insérer ici le contenu complet de la réponse écrite]*
+*[Insert the full content of the written response here]*
 
 ---
 
-## Suite donnée
+## Follow-up
 
-La contestation a été transmise :
-- **Date** : 17 janvier 2024
-- **Mode** : Lettre recommandée avec accusé de réception
-- **À** : Direction des Ressources Humaines + Direction Générale
+The dispute was sent:
+- **Date**: 17 January 2024
+- **Method**: Registered letter with acknowledgement of receipt
+- **To**: Human Resources Department + General Management
 
-> **À noter** : Aucune réponse formelle n'a été apportée à cette contestation avant l'envoi de la lettre de licenciement.
+> **Note**: No formal response was given to this dispute before the dismissal letter was sent.

@@ -1,15 +1,15 @@
 ---
-title: "Les Conclusions devant le Conseil de Prud'hommes"
+title: "Submissions to the Employment Tribunal"
 date: 2024-05-20T09:00:00+01:00
 draft: false
 author: "Rédaction"
-description: "Les conclusions rédigées par l'avocat pour l'audience au fond."
+description: "The submissions drafted by the lawyer for the full hearing."
 categories:
   - Justice
 tags:
-  - prud'hommes
-  - conclusions
-  - avocat
+  - employment tribunal
+  - submissions
+  - lawyer
 series:
   - Dossier Licenciement
 cover:
@@ -20,37 +20,37 @@ cover:
   hidden: true
 ---
 
-## Saisine du Conseil de Prud'hommes
+## Filing with the employment tribunal
 
-Après plusieurs tentatives de conciliation infructueuses, l'affaire a été plaidée au fond le 20 mai 2024.
+After several unsuccessful conciliation attempts, the case was pleaded on the merits on 20 May 2024.
 
-## Demandes formulées
+## Claims made
 
-### Sur la nature du licenciement
+### On the nature of the dismissal
 
-La défense demande au juge de qualifier le licenciement en **licenciement sans cause réelle et sérieuse** et non en faute grave.
+The defence asks the judge to qualify the dismissal as **dismissal without real and serious cause** rather than gross misconduct.
 
-### Sur les indemnités
+### On severance pay
 
-1. **Indemnité légale de licenciement** : calculée sur l'ancienneté
-2. **Indemnité compensatrice de préavis** : 3 mois
-3. **Indemnité pour licenciement sans cause réelle et sérieuse** : 6 mois de salaire
-4. **Dommages et intérêts** pour procédure abusive
+1. **Statutory redundancy payment**: calculated on length of service
+2. **Damages in lieu of notice period**: 3 months
+3. **Damages for dismissal without real and serious cause**: 6 months' salary
+4. **Damages** for abusive procedure
 
-### Sur la rupture du contrat de travail
+### On termination of the employment contract
 
-Réintégration dans l'entreprise avec maintien de l'ancienneté (demande subsidiaire).
+Reinstatement in the company with retention of seniority (subsidiary claim).
 
-## Texte intégral des conclusions
+## Full text of the submissions
 
-*[Insérer ici le contenu complet des conclusions rédigées par l'avocat]*
+*[Insert the full content of the submissions drafted by the lawyer here]*
 
 ---
 
-## Éléments de preuve produits
+## Evidence produced
 
-- Contrat de travail initial
-- Bulletin de salaire des 12 derniers mois
-- Avertissement et contestation
-- Témoignages de collègues
-- Emails et correspondances internes
+- Initial employment contract
+- Payslips for the last 12 months
+- Warning and dispute
+- Colleague testimonies
+- Emails and internal correspondence

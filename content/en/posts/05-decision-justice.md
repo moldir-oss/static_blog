@@ -1,15 +1,15 @@
 ---
-title: "La Décision de Justice"
+title: "The Court Decision"
 date: 2024-09-10T14:00:00+01:00
 draft: false
 author: "Rédaction"
-description: "Décision rendue par le Conseil de Prud'hommes."
+description: "Decision rendered by the employment tribunal."
 categories:
   - Justice
 tags:
-  - prud'hommes
-  - décision
-  - jugement
+  - employment tribunal
+  - decision
+  - judgement
 series:
   - Dossier Licenciement
 cover:
@@ -20,53 +20,53 @@ cover:
   hidden: true
 ---
 
-## Le Jugement
+## The judgement
 
-Le 10 septembre 2024, le Conseil de Prud'hommes de [Ville] a rendu sa décision.
+On 10 September 2024, the Conseil de Prud'hommes of [Ville] rendered its decision.
 
-## Dispositif
+## Ruling
 
 ### Qualification
 
-Le licenciement est qualifié de **licenciement sans cause réelle et sérieuse**.
+The dismissal is qualified as **dismissal without real and serious cause**.
 
-La qualification en faute grave est **rejetée**.
+The gross misconduct qualification is **rejected**.
 
-### Condamnations
+### Orders
 
-| Condamnation | Montant |
-|-------------|---------|
-| Indemnité légale | €X,XXX |
-| Indemnité compensatrice de préavis | €X,XXX |
-| Indemnité pour licenciement sans cause | €XX,XXX |
+| Order | Amount |
+|-------|--------|
+| Statutory payment | €X,XXX |
+| Damages in lieu of notice | €X,XXX |
+| Damages for dismissal without cause | €XX,XXX |
 | **Total** | **€XX,XXX** |
 
-### Autres dispositions
+### Other provisions
 
-- L'employeur est condamné aux **frais de justice**
-- La rupture du contrat est **définitive** (pas de réintégration)
+- The employer is ordered to pay **court costs**
+- The termination of the contract is **final** (no reinstatement)
 
-## Texte intégral de la décision
+## Full text of the decision
 
-*[Insérer ici le contenu complet de la décision de justice]*
+*[Insert the full content of the court decision here]*
 
 ---
 
-## Analyse du jugement
+## Analysis of the judgement
 
-### Points positifs
+### Positive points
 
-- La qualification en faute grave a été écartée : c'était l'enjeu principal
-- Les indemnités sont supérieures au minimum légal
-- La procédure de l'employeur a été jugée défaillante
+- The gross misconduct qualification was set aside: this was the main issue
+- The damages are above the legal minimum
+- The employer's procedure was judged deficient
 
-### Points négatifs
+### Negative points
 
-- La réintégration n'a pas été accordée (demande subsidiaire)
-- Le montant des dommages et intérêts pourrait avoir été plus élevé
+- Reinstatement was not granted (subsidiary claim)
+- The damages for abusive procedure could have been higher
 
-## Voies de recours
+## Avenues of appeal
 
-**Délai d'appel** : 1 mois à compter de la notification du jugement.
+**Appeal deadline**: 1 month from notification of the judgement.
 
-L'employeur a fait appel de la décision. L'affaire sera donc rejugée en deuxième instance.
+The employer appealed the decision. The case will therefore be retried on second instance.

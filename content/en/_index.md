@@ -1,12 +1,12 @@
 ---
-title: "Accueil"
+title: "Home"
 ---
 
-Bienvenue sur ce site qui retrace l'intégralité d'un cas de licenciement.
+Welcome to this site, which retraces the entirety of a dismissal case.
 
-Vous trouverez ici :
-- **Tous les documents** : avertissement, contestation, lettre de licenciement, conclusions, décision de justice...
-- **La chronologie complète** : dates clés et événements dans l'ordre chronologique
-- **L'analyse** : réflexions sur chaque étape du processus
+Here you will find:
+- **All documents**: warning, dispute, dismissal letter, submissions, court decision...
+- **The full timeline**: key dates and events in chronological order
+- **The analysis**: reflections on each step of the process
 
-Ce site est avant tout un outil de transparence et de mémoire.
+This site is above all a tool for transparency and memory.

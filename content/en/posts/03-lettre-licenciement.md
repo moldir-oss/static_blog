@@ -1,15 +1,15 @@
 ---
-title: "La Lettre de Licenciement"
+title: "The Dismissal Letter"
 date: 2024-02-01T10:00:00+01:00
 draft: false
 author: "Rédaction"
-description: "Réception de la lettre de licenciement pour faute grave."
+description: "Receipt of the dismissal letter for gross misconduct."
 categories:
   - Documents
 tags:
-  - licenciement
-  - faute grave
-  - lettre
+  - dismissal
+  - gross misconduct
+  - letter
 series:
   - Dossier Licenciement
 cover:
@@ -20,38 +20,38 @@ cover:
   hidden: true
 ---
 
-## Réception du licenciement
+## Receipt of the dismissal
 
-Le 1er février 2024, le salarié a reçu la lettre de licenciement pour **faute grave**.
+On 1 February 2024, the employee received the dismissal letter for **gross misconduct**.
 
-## Éléments clés du document
+## Key elements of the document
 
-| Élément | Détail |
+| Element | Detail |
 |---------|--------|
-| **Date d'effet** | 1er février 2024 (licenciement immédiat) |
-| **Motif** | Faute grave |
-| **Faits reprochés** | Répétition des manquements mentionnés dans l'avertissement |
-| **Préavis** | Aucun (licenciement sans préavis pour faute grave) |
-| **Indemnités** | Refusé en raison de la qualification en faute grave |
+| **Effective date** | 1 February 2024 (immediate dismissal) |
+| **Grounds** | Gross misconduct |
+| **Alleged facts** | Repeated breaches mentioned in the warning |
+| **Notice period** | None (dismissal without notice for gross misconduct) |
+| **Severance pay** | Refused due to the gross misconduct qualification |
 
-## Analyse juridique préliminaire
+## Preliminary legal analysis
 
-La qualification en "faute grave" est contestable pour plusieurs raisons :
-1. La gravité des faits n'est pas démontrée
-2. Aucune échelle de sanctions n'a été respectée (avertissement → licenciement direct)
-3. Le motif réel semble différent du motif allégué
+The "gross misconduct" qualification is debatable for several reasons:
+1. The seriousness of the facts is not demonstrated
+2. No scale of sanctions was respected (warning → direct dismissal)
+3. The real grounds appear different from the alleged ones
 
-## Texte intégral de la lettre
+## Full text of the letter
 
-*[Insérer ici le contenu complet de la lettre de licenciement]*
+*[Insert the full content of the dismissal letter here]*
 
 ---
 
-## Réaction immédiate
+## Immediate reaction
 
-Dès réception de ce document, le salarié a pris contact avec :
-- **Le syndicat** pour un accompagnement
-- **Un avocat** spécialisé en droit du travail
-- **Le conseil de prud'hommes** pour connaître les délais de recours
+Upon receiving this document, the employee contacted:
+- **The union** for support
+- **A lawyer** specialised in employment law
+- **The employment tribunal (Conseil de Prud'hommes)** to learn about the appeal deadlines
 
-> **Délai de recours** : 12 mois à compter du licenciement pour saisir le Conseil de Prud'hommes.
+> **Appeal deadline**: 12 months from the dismissal to file a claim with the Conseil de Prud'hommes.

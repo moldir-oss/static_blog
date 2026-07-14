@@ -1,15 +1,15 @@
 ---
-title: "L'Avertissement"
+title: "The Warning"
 date: 2024-01-15T09:00:00+01:00
 draft: false
 author: "Rédaction"
-description: "Première étape du conflit : réception de l'avertissement disciplinaire."
+description: "First step of the dispute: receipt of the disciplinary warning."
 categories:
   - Documents
 tags:
-  - avertissement
-  - disciplinaire
-  - début
+  - warning
+  - disciplinary
+  - beginning
 series:
   - Dossier Licenciement
 cover:
@@ -20,33 +20,33 @@ cover:
   hidden: true
 ---
 
-## Contexte
+## Context
 
-Le 15 janvier 2024, le salarié a reçu un avertissement disciplinaire de la part de la direction. Ce document marque le début officiel du conflit qui allait aboutir au licenciement.
+On 15 January 2024, the employee received a disciplinary warning from management. This document marks the official start of the dispute that would lead to the dismissal.
 
-## Contenu de l'avertissement
+## Content of the warning
 
-L'avertissement mentionne les faits suivants :
-- **Date des faits** : 8 janvier 2024
-- **Motif allégué** : "Manquement aux obligations contractuelles"
-- **Délai de réponse** : 48 heures pour présenter ses observations
+The warning mentions the following facts:
+- **Date of the facts**: 8 January 2024
+- **Alleged grounds**: "Breach of contractual obligations"
+- **Response deadline**: 48 hours to submit observations
 
-## Analyse
+## Analysis
 
-Cet avertissement est arrivé sans précédent. Aucun entretien préalable n'a été réalisé, aucune mise en garde orale n'a précédé ce document. La procédure semble précipitée et disproportionnée.
+This warning came out of nowhere. No prior interview was conducted, and no oral warning preceded this document. The procedure appears rushed and disproportionate.
 
-> **Document original** : Vous pouvez retrouver le texte intégral de l'avertissement ci-dessous.
-
----
-
-## Texte intégral de l'avertissement
-
-*[Insérer ici le contenu complet du document .md original]*
+> **Original document**: The full text of the warning can be found below.
 
 ---
 
-## Références
+## Full text of the warning
 
-- Date de réception : 15 janvier 2024
-- Mode de transmission : remis en main propre contre accusé de réception
-- Référence interne : AV-2024-0115
+*[Insert the full content of the original .md document here]*
+
+---
+
+## References
+
+- Date received: 15 January 2024
+- Method of delivery: handed over in person against acknowledgement of receipt
+- Internal reference: AV-2024-0115
