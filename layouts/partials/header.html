@@ -88,34 +88,41 @@
         </ul>
     </nav>
     {{- if (and (not site.Params.disableLangToggle) hugo.IsMultilingual) }}
-    {{- $lang := .Lang}}
+    {{- $lang := .Lang }}
     {{- $flags := dict "fr" "🇫🇷" "en" "🇬🇧" }}
     <ul class="lang-menu lang-switcher">
-        {{- range $code, $l := site.Languages -}}
-        {{- $flag := index $flags $code | default ($code | title) }}
+        {{- range site.Languages }}
+        {{- $code := .Lang }}
+        {{- $flag := index $flags $code | default ($code | title) | emojify }}
         {{- $url := "" }}
         {{- if eq $code $lang }}
-        {{- $url = $.RelPermalink }}
+            {{- $url = $.RelPermalink }}
         {{- else }}
-        {{- with where $.Translations "Lang" $code }}
-        {{- $url = (index . 0).RelPermalink }}
-        {{- else }}
-        {{- with where site.Home.Translations "Lang" $code }}
-        {{- $url = (index . 0).RelPermalink }}
+            {{- range $.Translations }}
+                {{- if eq .Lang $code }}
+                    {{- $url = .RelPermalink }}
+                {{- end }}
+            {{- end }}
         {{- end }}
+        {{- if not $url }}
+            {{- range site.Home.Translations }}
+                {{- if eq .Lang $code }}
+                    {{- $url = .RelPermalink }}
+                {{- end }}
+            {{- end }}
         {{- end }}
+        {{- if not $url }}
+            {{- $url = printf "/%s/" $code }}
         {{- end }}
-        {{- if $url }}
         <li>
-            <a href="{{- $url -}}" title="{{ $l.Label | default ($code | title) }}"
-                aria-label="{{ $l.Label | default ($code | title) }}"
+            <a href="{{ $url }}" title="{{ .LanguageName | default ($code | title) }}"
+                aria-label="{{ .LanguageName | default ($code | title) }}"
                 class="lang-flag{{- if eq $lang $code }} active{{- end }}"
                 hreflang="{{ $code }}">
-                {{- $flag | emojify -}}
+                {{- $flag -}}
             </a>
         </li>
-        {{- end -}}
-        {{- end -}}
+        {{- end }}
     </ul>
     {{- end }}
 </header>
