@@ -104,7 +104,7 @@
         {{- $code := .Lang }}
         {{- $flag := index $flags $code | default ($code | title) | emojify }}
         {{- $url := "" }}
-        {{- if eq $code $lang }}
+        {{- if eq $code $detectedLang }}
             {{- $url = $.RelPermalink }}
         {{- else }}
             {{- range $.Translations }}
@@ -126,7 +126,7 @@
         <li>
             <a href="{{ $url }}" title="{{ .LanguageName | default ($code | title) }}"
                 aria-label="{{ .LanguageName | default ($code | title) }}"
-                class="lang-flag{{- if eq $lang $code }} active{{- end }}"
+                class="lang-flag{{- if eq $detectedLang $code }} active{{- end }}"
                 hreflang="{{ $code }}">
                 {{- $flag -}}
             </a>
