@@ -1,0 +1,31 @@
+{{- if (.Param "ShowBreadCrumbs") -}}
+<nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    {{- $detectedLang := "fr" }}
+    {{- if strings.Contains $.RelPermalink "/en/" }}{{- $detectedLang = "en" }}{{- end }}
+    {{- $ancestors := .Ancestors.Reverse -}}
+    {{- if eq $detectedLang "en" }}
+        {{- $filtered := slice }}
+        {{- range $ancestors }}
+            {{- if strings.Contains .RelPermalink "/en/" }}
+                {{- $filtered = $filtered | append . }}
+            {{- end }}
+        {{- end }}
+        {{- $ancestors = $filtered }}
+    {{- end }}
+    {{- range $i, $bc := $ancestors }}
+        {{- if eq $i 0 }}
+            <a href="{{ $bc.RelPermalink }}">{{ $bc.Title }}</a>
+        {{- else }}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="{{ $bc.RelPermalink }}">{{ $bc.Title }}</a>
+        {{- end }}
+    {{- end }}
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+{{- end -}}
