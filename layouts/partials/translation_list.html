@@ -6,10 +6,15 @@
     {{- end -}}
     <span>{{- i18n "translations" | default "Translations" }}:</span>
     <ul class="i18n_list">
+        {{- $lang := .Lang }}
         {{- range .Translations }}
         <li>
-            <a href="{{ .RelPermalink }}">
-                {{- if (and site.Params.displayFullLangName (.Language.Label)) }}
+            <a href="{{ .RelPermalink }}" hreflang="{{ .Lang }}"
+                title="{{ .Language.Params.languageAltTitle | default (.Language.Label | emojify) | default (.Lang | title) }}"
+                aria-label="{{ .Language.Label | default (.Lang | title) }}">
+                {{- if .Language.Params.flag }}
+                {{- .Language.Params.flag | emojify -}}
+                {{- else if (and site.Params.displayFullLangName (.Language.Label)) }}
                 {{- .Language.Label | emojify -}}
                 {{- else }}
                 {{- .Lang | title -}}

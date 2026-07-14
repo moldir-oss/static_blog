@@ -23,6 +23,9 @@ pygmentsUseClasses = true
     locale = "fr-fr"
     label = "Français"
     weight = 1
+    [languages.fr.params]
+      languageAltTitle = "Français"
+      flag = "🇫🇷"
     [[languages.fr.menu.main]]
       identifier = "fr-accueil"
       name = "Accueil"
@@ -90,6 +93,8 @@ pygmentsUseClasses = true
       weight = 50
 
   [languages.en.params]
+    languageAltTitle = "English"
+    flag = "🇬🇧"
     description = "A full account of a dismissal case, from the warning to the court decision."
     [languages.en.params.label]
       text = "Dismissal Case File"

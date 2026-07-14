@@ -60,26 +60,35 @@
 
                 {{- if (not site.Params.disableLangToggle) }}
                     {{- $lang := .Lang}}
-                    {{- with site.Home.Translations }}
                     {{- $separator := or $label_text (not site.Params.disableThemeToggle)}}
                     {{- if $separator }}<span class="nav-sep">|</span>{{ end }}
                     <ul class="lang-menu">
-                        {{- range . -}}
-                        {{- if ne $lang .Lang }}
+                        {{- range $code, $l := site.Languages -}}
+                        {{- if $l.Params.flag }}
+                        {{- $url := "" }}
+                        {{- if eq $code $lang }}
+                        {{- $url = $.RelPermalink }}
+                        {{- else }}
+                        {{- with where $.Translations "Lang" $code }}
+                        {{- $url = (index . 0).RelPermalink }}
+                        {{- end }}
+                        {{- end }}
+                        {{- if not $url }}
+                        {{- with where site.Sites "Language.Lang" $code }}
+                        {{- $url = (index . 0).Home.RelPermalink }}
+                        {{- end }}
+                        {{- end }}
                         <li>
-                            <a href="{{- .RelPermalink -}}" title="{{ .Language.Params.languageAltTitle | default (.Language.Label | emojify) | default (.Lang | title) }}"
-                                aria-label="{{ .Language.Label | default (.Lang | title) }}">
-                                {{- if (and site.Params.displayFullLangName (.Language.Label)) }}
-                                {{- .Language.Label | emojify -}}
-                                {{- else }}
-                                {{- .Lang | title -}}
-                                {{- end -}}
+                            <a href="{{- $url -}}" title="{{ $l.Params.languageAltTitle | default ($l.Label | emojify) | default ($code | title) }}"
+                                aria-label="{{ $l.Label | default ($code | title) }}"
+                                class="lang-flag{{- if eq $lang $code }} active{{- end }}"
+                                hreflang="{{ $code }}">
+                                {{- $l.Params.flag | emojify -}}
                             </a>
                         </li>
                         {{- end -}}
                         {{- end}}
                     </ul>
-                    {{- end }}
                 {{- end }}
             </div>
             {{- end }}
