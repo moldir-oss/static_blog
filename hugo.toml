@@ -57,6 +57,7 @@ pygmentsUseClasses = true
     locale = "en-us"
     label = "English"
     weight = 2
+    title = "Dismissal Case File"
     [[languages.en.menu.main]]
       identifier = "en-home"
       name = "Home"
@@ -87,6 +88,25 @@ pygmentsUseClasses = true
       name = "Tags"
       url = "/tags"
       weight = 50
+
+  [languages.en.params]
+    description = "A full account of a dismissal case, from the warning to the court decision."
+    [languages.en.params.label]
+      text = "Dismissal Case File"
+    [languages.en.params.profileMode]
+      enabled = true
+      title = "The Dismissal Case File"
+      subtitle = "All the documents, steps and the complete timeline — from the warning to the court decision."
+      imageUrl = "/images/cover.jpg"
+      imageWidth = 120
+      imageHeight = 120
+      imageTitle = "Dismissal Case File"
+      [[languages.en.params.profileMode.buttons]]
+        name = "Read the articles"
+        url = "/posts"
+      [[languages.en.params.profileMode.buttons]]
+        name = "View the timeline"
+        url = "/posts/chronologie"
 
 [params]
   env = "production"
