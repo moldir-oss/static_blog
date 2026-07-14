@@ -27,8 +27,6 @@ jobs:
   build:
     name: Build Hugo Site
     runs-on: ubuntu-latest
-    env:
-      HUGO_VERSION: ${{ env.HUGO_VERSION }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
