@@ -1,0 +1,211 @@
+name: Manual Deploy (2 params)
+
+# Déclenchement manuel : choisir la plateforme, puis renseigner token + site_id
+# Plateformes concernées (2 paramètres : token + site_id) :
+#   netlify, render, koyeb, stormkit, zeabur  -> upload du build preview
+#   github-pages                              -> aucun paramètre (OIDC)
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: "Plateforme de déploiement"
+        required: true
+        type: choice
+        options:
+          - netlify
+          - render
+          - koyeb
+          - stormkit
+          - zeabur
+          - firebase
+          - github-pages
+      api_token:
+        description: "Token / API key — Netlify Auth Token, Render/Koyeb/Stormkit/Zeabur API Token. Ignoré pour github-pages."
+        required: false
+        type: string
+      site_id:
+        description: "ID de service / projet / app — Netlify Site ID, Render/Koyeb Service ID, Stormkit App ID ou Zeabur Project ID. Ignoré pour github-pages."
+        required: false
+        type: string
+
+env:
+  HUGO_VERSION: "0.164.0"
+  DEPLOY_MESSAGE: "Déploiement manuel depuis GitHub Actions"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build (preview)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: '1.22'
+          cache: true
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: ${{ env.HUGO_VERSION }}
+          extended: true
+
+      - name: Get Hugo modules
+        run: hugo mod get -u
+
+      - name: Build with Hugo (preview)
+        env:
+          HUGO_ENVIRONMENT: production
+          HUGO_ENV: production
+        run: hugo --gc --minify --buildDrafts --buildFuture
+
+      - name: Upload site artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: ./public
+          retention-days: 1
+
+  deploy-netlify:
+    name: Deploy to Netlify
+    if: github.event.inputs.platform == 'netlify'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: ./public
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v4
+        with:
+          publish-dir: ./public
+          production-deploy: true
+          deploy-message: ${{ env.DEPLOY_MESSAGE }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ github.event.inputs.api_token }}
+          NETLIFY_SITE_ID: ${{ github.event.inputs.site_id }}
+
+  deploy-render:
+    name: Deploy to Render
+    if: github.event.inputs.platform == 'render'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render deploy
+        run: |
+          curl -fsS -X POST \
+            "https://api.render.com/v1/services/${{ github.event.inputs.site_id }}/deploys" \
+            -H "Authorization: Bearer ${{ github.event.inputs.api_token }}" \
+            -H "Content-Type: application/json" \
+            -d '{"clearCache": false}'
+
+  deploy-koyeb:
+    name: Deploy to Koyeb
+    if: github.event.inputs.platform == 'koyeb'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Koyeb deploy
+        run: |
+          curl -fsS -X POST \
+            "https://api.koyeb.com/v1/services/${{ github.event.inputs.site_id }}/deploy" \
+            -H "Authorization: Bearer ${{ github.event.inputs.api_token }}"
+
+  deploy-stormkit:
+    name: Deploy to Stormkit
+    if: github.event.inputs.platform == 'stormkit'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Stormkit deploy
+        run: |
+          curl -fsS -X POST "https://api.stormkit.io/v1/deploys" \
+            -H "Authorization: Bearer ${{ github.event.inputs.api_token }}" \
+            -H "Content-Type: application/json" \
+            -d '{"appId":"${{ github.event.inputs.site_id }}","env":"production"}'
+
+  deploy-zeabur:
+    name: Deploy to Zeabur
+    if: github.event.inputs.platform == 'zeabur'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Zeabur CLI
+        run: npm i -g @zeabur/cli
+
+      - name: Deploy to Zeabur
+        run: |
+          zeabur deploy \
+            --project ${{ github.event.inputs.site_id }} \
+            --environment production \
+            --token ${{ github.event.inputs.api_token }}
+
+  deploy-firebase:
+    name: Deploy to Firebase Hosting
+    if: github.event.inputs.platform == 'firebase'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Download site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: ./public
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Deploy to Firebase
+        run: firebase deploy --token "${{ github.event.inputs.api_token }}" --project "${{ github.event.inputs.site_id }}"
+
+  deploy-github-pages:
+    name: Deploy to GitHub Pages
+    if: github.event.inputs.platform == 'github-pages'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: ./public
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

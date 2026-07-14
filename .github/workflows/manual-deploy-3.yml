@@ -1,0 +1,149 @@
+name: Manual Deploy (3 params)
+
+# Déclenchement manuel : choisir la plateforme, puis renseigner token + site_id + account_id
+# Plateformes concernées (3 paramètres : token + site_id + account_id) :
+#   vercel, cloudflare  -> upload du build preview
+#   aws-amplify         -> redéploiement (nécessite les 3 clés AWS en plus)
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: "Plateforme de déploiement"
+        required: true
+        type: choice
+        options:
+          - vercel
+          - cloudflare
+          - aws-amplify
+      api_token:
+        description: "Token / API key — Vercel Token ou Cloudflare API Token. Ignoré pour aws-amplify."
+        required: false
+        type: string
+      site_id:
+        description: "ID de projet / app — Vercel Project ID, Cloudflare Project Name ou Amplify App ID."
+        required: false
+        type: string
+      account_id:
+        description: "Account / Org ID — Cloudflare Account ID ou Vercel Org ID. Ignoré pour aws-amplify."
+        required: false
+        type: string
+      aws_access_key_id:
+        description: "AWS Access Key ID (uniquement aws-amplify)."
+        required: false
+        type: string
+      aws_secret_access_key:
+        description: "AWS Secret Access Key (uniquement aws-amplify)."
+        required: false
+        type: string
+      aws_region:
+        description: "AWS Region (uniquement aws-amplify, ex: us-east-1)."
+        required: false
+        type: string
+
+env:
+  HUGO_VERSION: "0.164.0"
+  DEPLOY_MESSAGE: "Déploiement manuel depuis GitHub Actions"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build (preview)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: '1.22'
+          cache: true
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: ${{ env.HUGO_VERSION }}
+          extended: true
+
+      - name: Get Hugo modules
+        run: hugo mod get -u
+
+      - name: Build with Hugo (preview)
+        env:
+          HUGO_ENVIRONMENT: production
+          HUGO_ENV: production
+        run: hugo --gc --minify --buildDrafts --buildFuture
+
+      - name: Upload site artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: ./public
+          retention-days: 1
+
+  deploy-vercel:
+    name: Deploy to Vercel
+    if: github.event.inputs.platform == 'vercel'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: ./public
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v42
+        with:
+          vercel-token: ${{ github.event.inputs.api_token }}
+          vercel-org-id: ${{ github.event.inputs.account_id }}
+          vercel-project-id: ${{ github.event.inputs.site_id }}
+          vercel-args: '--prod --prebuilt'
+          working-directory: ./public
+
+  deploy-cloudflare:
+    name: Deploy to Cloudflare Pages
+    if: github.event.inputs.platform == 'cloudflare'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: ./public
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ github.event.inputs.api_token }}
+          accountId: ${{ github.event.inputs.account_id }}
+          projectName: ${{ github.event.inputs.site_id }}
+          directory: ./public
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          wranglerVersion: '3'
+
+  deploy-aws-amplify:
+    name: Deploy to AWS Amplify
+    if: github.event.inputs.platform == 'aws-amplify'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ github.event.inputs.aws_access_key_id }}
+          aws-secret-access-key: ${{ github.event.inputs.aws_secret_access_key }}
+          aws-region: ${{ github.event.inputs.aws_region }}
+
+      - name: Start Amplify deployment
+        run: |
+          aws amplify start-deployment \
+            --app-id ${{ github.event.inputs.site_id }} \
+            --branch-name main

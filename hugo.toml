@@ -110,8 +110,10 @@ pygmentsUseClasses = true
   showtoc = true
   tocopen = true
 
-  # Cusdis Comments
-  # Remplacez par votre APP_ID après inscription sur https://cusdis.com
+  # Cusdis Comments — une seule plateforme de commentaires partagée par tous les déploiements
+  # (netlify, vercel, cloudflare, github-pages). Renseignez cusdisAppId une fois ;
+  # cusdisHost pointe vers votre instance Cusdis (publique ou auto-hébergée).
+  cusdisHost = "https://cusdis.com"
   cusdisAppId = ""
 
   # SEO
@@ -145,9 +147,6 @@ pygmentsUseClasses = true
 
   # Social icons
   [[params.socialIcons]]
-    name = "github"
-    url = "https://github.com/your-username"
-  [[params.socialIcons]]
     name = "email"
     url = "mailto:your@email.com"
 
@@ -163,6 +162,10 @@ pygmentsUseClasses = true
 
   # Analytics (décommentez si besoin)
   # googleAnalytics = "G-XXXXXXXXXX"
+
+  # GoatCounter — analytics respectueuses de la vie privée (gratuit, sans cookie)
+  # Renseignez votre code (ex: monblog) ; laissez vide pour désactiver
+  goatcounterCode = ""
 
 # Search page outputs
 [outputs]
