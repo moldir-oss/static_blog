@@ -1,6 +1,12 @@
 /* Custom styles for the Dossier Licenciement blog */
 /* Add your custom CSS here - this file is loaded by PaperMod */
 
+/* Increased content width (960px is the classic web grid width) */
+:root {
+  --main-width: 960px;
+  --nav-width: 960px;
+}
+
 /* Primary color left to PaperMod default (removed custom bordeaux/red override) */
 
 /* Home page profile mode image */
