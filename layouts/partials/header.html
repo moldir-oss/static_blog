@@ -69,13 +69,12 @@
             {{- $itemLang := "fr" }}
             {{- if hasPrefix .Identifier "en-" }}{{- $itemLang = "en" }}{{- end }}
             {{- $showName := .Name }}
-            {{- $showURL := .URL }}
             {{- if eq $lang "en" }}
                 {{- if eq $itemLang "fr" }}
                     {{- $showName = index $enNames .URL | default .Name }}
                 {{- end }}
-                {{- $showURL = printf "/en%s" .URL }}
             {{- end }}
+            {{- $showURL := .URL | relLangURL }}
             {{- $menu_item_url := (cond (strings.HasSuffix $showURL "/") $showURL (printf "%s/" $showURL) ) }}
             {{- $page_url := $currentPage.RelPermalink }}
             <li>
