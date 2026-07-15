@@ -182,3 +182,58 @@ footer {
   border-top: 2px solid var(--border);
   padding-top: 2rem;
 }
+
+/* Hamburger menu toggle */
+.menu-toggle {
+  display: none;
+}
+
+.menu-toggle-label {
+  display: none;
+  cursor: pointer;
+  padding: 0 0.4rem;
+  user-select: none;
+}
+
+.menu-toggle-label span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--primary);
+  margin: 4px 0;
+  border-radius: 1px;
+  transition: transform 0.3s;
+}
+
+@media screen and (max-width: 768px) {
+  .menu-toggle-label {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .menu {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background: var(--theme);
+    border-top: 1px solid var(--border);
+    padding: 0.5rem 0;
+    overflow-x: visible;
+    white-space: normal;
+  }
+
+  .menu li {
+    padding: 0.3rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .menu li:last-child {
+    border-bottom: none;
+  }
+
+  #menu-toggle:checked ~ .menu {
+    display: flex;
+  }
+}

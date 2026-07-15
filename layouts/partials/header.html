@@ -1,5 +1,6 @@
 <header class="header">
     <nav class="header-nav">
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
         <div class="logo">
             {{- $label_text := (site.Params.label.text | default site.Title) }}
             {{- if site.Title }}
@@ -64,6 +65,9 @@
                     </svg>
                 </button>
                 {{- end }}
+                <label for="menu-toggle" class="menu-toggle-label" aria-label="Menu" title="Menu">
+                    <span></span><span></span><span></span>
+                </label>
             </div>
             {{- end }}
         </div>
