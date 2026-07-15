@@ -4,6 +4,7 @@ date: 2024-02-01T10:00:00+01:00
 draft: false
 author: "Rédaction"
 description: "Receipt of the dismissal letter for gross misconduct."
+companyLetter: true
 categories:
   - Documents
 tags:

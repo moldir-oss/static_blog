@@ -4,6 +4,7 @@ date: 2024-01-15T09:00:00+01:00
 draft: false
 author: "Rédaction"
 description: "First step of the dispute: receipt of the disciplinary warning."
+companyLetter: true
 categories:
   - Documents
 tags:
