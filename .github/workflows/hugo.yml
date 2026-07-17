@@ -35,8 +35,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get PaperMod theme
-        run: git clone --depth=1 https://github.com/adityatelange/hugo-PaperMod.git themes/PaperMod
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: '1.22'
+          cache: true
+
+      - name: Get Hugo modules
+        run: hugo mod get -u
 
       - name: Setup Pages
         id: pages
