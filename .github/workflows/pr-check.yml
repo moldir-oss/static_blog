@@ -13,6 +13,17 @@ jobs:
     env:
       HUGO_VERSION: "0.164.0"
     steps:
+      - name: Hardware specifications summary
+        run: |
+          CPU_EXACT=$(grep -m 1 'model name' /proc/cpuinfo | cut -d':' -f2 | xargs)
+          RAM_TOTAL=$(free -h | awk '/^Mem:/ {print $2}')
+          DISK_INFO=$(df -h / | awk 'NR==2 {print $2 " total (" $4 " available)"}')
+      
+          echo "### 💻 Runner Specs" >> $GITHUB_STEP_SUMMARY
+          echo "* **Exact CPU Model:** $CPU_EXACT" >> $GITHUB_STEP_SUMMARY
+          echo "* **CPU Cores:** $(nproc)" >> $GITHUB_STEP_SUMMARY
+          echo "* **RAM:** $RAM_TOTAL" >> $GITHUB_STEP_SUMMARY
+          echo "* **Disk (SSD):** $DISK_INFO" >> $GITHUB_STEP_SUMMARY
       - name: Checkout
         uses: actions/checkout@v7
         with:
