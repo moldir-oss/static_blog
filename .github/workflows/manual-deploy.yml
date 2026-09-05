@@ -1,0 +1,338 @@
+name: Manual deploy
+
+# Full manual deploy: pick the target platform, paste your .deploy.local
+# content, fill in the tokens — same parameters as deploy-examples/*.example.
+# The build gets the complete config (Giscus, Visit API, SEO verification),
+# so a workflow run deploys the site end to end, like `npm run package`.
+# Run on demand only (Actions tab > Run workflow).
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: "Target platform"
+        required: true
+        type: choice
+        options:
+          - netlify
+          - vercel
+          - cloudflare
+          - github-pages
+          - render
+          - koyeb
+          - stormkit
+          - zeabur
+          - firebase
+          - aws-amplify
+      base_url:
+        description: "Final site URL (e.g. https://monsite.netlify.app). Used as HUGO_BASEURL for sitemap/RSS/canonical. Leave empty for relative links only (or set HUGO_BASEURL in config below)."
+        required: false
+        type: string
+      config:
+        description: "Deploy config: paste .deploy.local lines (KEY=VALUE, one per line or separated by ;). Supported keys: SITE_URL, HUGO_BASEURL, GISCUS_*, CUSDIS_*, HUGO_VISIT_API_URL, HUGO_GOOGLE_SITE_VERIFICATION, HUGO_BING_SITE_VERIFICATION, ANONYMIZE_IP."
+        required: false
+        type: string
+      api_token:
+        description: "Token / API key — Netlify Auth Token, Vercel Token, Cloudflare API Token, Render/Koyeb/Stormkit/Zeabur API Token, Firebase token. Ignored for github-pages and aws-amplify."
+        required: false
+        type: string
+      site_id:
+        description: "Service / project / app ID — Netlify Site ID, Vercel Project ID, Cloudflare Project Name, Render/Koyeb Service ID, Stormkit App ID, Zeabur Project ID, Firebase Project ID, Amplify App ID. Ignored for github-pages."
+        required: false
+        type: string
+      account_id:
+        description: "Account / Org ID — Cloudflare Account ID or Vercel Org ID. Only for cloudflare and vercel."
+        required: false
+        type: string
+      aws_access_key_id:
+        description: "AWS Access Key ID (aws-amplify only)."
+        required: false
+        type: string
+      aws_secret_access_key:
+        description: "AWS Secret Access Key (aws-amplify only)."
+        required: false
+        type: string
+      aws_region:
+        description: "AWS Region (aws-amplify only, e.g. us-east-1)."
+        required: false
+        type: string
+
+env:
+  HUGO_VERSION: "0.165.0"
+  DEPLOY_MESSAGE: "Manual deployment from GitHub Actions"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build (preview)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Setup Go
+        uses: actions/setup-go@v7
+        with:
+          go-version: '1.27'
+          cache: true
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: ${{ env.HUGO_VERSION }}
+          extended: true
+
+      - name: Get Hugo modules
+        run: hugo mod get -u
+
+      - name: Load deploy config
+        env:
+          DEPLOY_CONFIG: ${{ github.event.inputs.config }}
+        run: |
+          skipped=0
+          normalized="$(printf '%s' "$DEPLOY_CONFIG" | tr ';' '\n')"
+          while IFS= read -r line || [ -n "$line" ]; do
+            trimmed="$(printf '%s' "$line" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+            case "$trimmed" in ''|\#*) continue ;; esac
+            case "$trimmed" in *=*) ;; *) skipped=$((skipped + 1)); continue ;; esac
+            key="${trimmed%%=*}"
+            value="${trimmed#*=}"
+            key="$(printf '%s' "$key" | tr -d '[:space:]')"
+            value="$(printf '%s' "$value" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's/^"\(.*\)"$/\1/' -e "s/^'\(.*\)'$/\1/")"
+            case "$key" in
+              SITE_URL|HUGO_BASEURL|GISCUS_*|CUSDIS_*|HUGO_VISIT_API_URL|HUGO_GOOGLE_SITE_VERIFICATION|HUGO_BING_SITE_VERIFICATION|ANONYMIZE_IP)
+                printf '%s=%s\n' "$key" "$value" >> "$GITHUB_ENV" ;;
+              *) skipped=$((skipped + 1)) ;;
+            esac
+          done <<< "$normalized"
+          echo "Deploy config loaded ($skipped unsupported line(s) ignored)."
+
+      - name: Build with Hugo (preview)
+        env:
+          HUGO_ENVIRONMENT: production
+          HUGO_ENV: production
+          SITE_BASEURL: ${{ github.event.inputs.base_url }}
+        run: |
+          BASEURL="$SITE_BASEURL"
+          if [ -z "$BASEURL" ] && [ -n "$HUGO_BASEURL" ]; then
+            BASEURL="$HUGO_BASEURL"
+          fi
+          if [ -z "$BASEURL" ] && [ "${{ github.event.inputs.platform }}" = "github-pages" ]; then
+            OWNER="${GITHUB_REPOSITORY%/*}"
+            REPO="${GITHUB_REPOSITORY#*/}"
+            BASEURL="https://${OWNER}.github.io/${REPO}/"
+          fi
+          FLAGS=(--gc --minify --buildDrafts --buildFuture)
+          if [ -n "$BASEURL" ]; then
+            FLAGS+=(-b "$BASEURL")
+          fi
+          hugo "${FLAGS[@]}"
+
+      - name: Upload site artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: ./public
+          retention-days: 1
+
+  deploy-netlify:
+    name: Deploy to Netlify
+    if: github.event.inputs.platform == 'netlify'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download site artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: site
+          path: ./public
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v4
+        with:
+          publish-dir: ./public
+          production-deploy: true
+          deploy-message: ${{ env.DEPLOY_MESSAGE }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ github.event.inputs.api_token }}
+          NETLIFY_SITE_ID: ${{ github.event.inputs.site_id }}
+
+  deploy-vercel:
+    name: Deploy to Vercel
+    if: github.event.inputs.platform == 'vercel'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download site artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: site
+          path: ./public
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v42
+        with:
+          vercel-token: ${{ github.event.inputs.api_token }}
+          vercel-org-id: ${{ github.event.inputs.account_id }}
+          vercel-project-id: ${{ github.event.inputs.site_id }}
+          vercel-args: '--prod --prebuilt'
+          working-directory: ./public
+
+  deploy-cloudflare:
+    name: Deploy to Cloudflare Pages
+    if: github.event.inputs.platform == 'cloudflare'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download site artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: site
+          path: ./public
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ github.event.inputs.api_token }}
+          accountId: ${{ github.event.inputs.account_id }}
+          projectName: ${{ github.event.inputs.site_id }}
+          directory: ./public
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          wranglerVersion: '4'
+
+  deploy-github-pages:
+    name: Deploy to GitHub Pages
+    if: github.event.inputs.platform == 'github-pages'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download site artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: site
+          path: ./public
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
+
+  deploy-render:
+    name: Deploy to Render
+    if: github.event.inputs.platform == 'render'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render deploy
+        run: |
+          curl -fsS -X POST \
+            "https://api.render.com/v1/services/${{ github.event.inputs.site_id }}/deploys" \
+            -H "Authorization: Bearer ${{ github.event.inputs.api_token }}" \
+            -H "Content-Type: application/json" \
+            -d '{"clearCache": false}'
+
+  deploy-koyeb:
+    name: Deploy to Koyeb
+    if: github.event.inputs.platform == 'koyeb'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Koyeb deploy
+        run: |
+          curl -fsS -X POST \
+            "https://api.koyeb.com/v1/services/${{ github.event.inputs.site_id }}/deploy" \
+            -H "Authorization: Bearer ${{ github.event.inputs.api_token }}"
+
+  deploy-stormkit:
+    name: Deploy to Stormkit
+    if: github.event.inputs.platform == 'stormkit'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Stormkit deploy
+        run: |
+          curl -fsS -X POST "https://api.stormkit.io/v1/deploys" \
+            -H "Authorization: Bearer ${{ github.event.inputs.api_token }}" \
+            -H "Content-Type: application/json" \
+            -d '{"appId":"${{ github.event.inputs.site_id }}","env":"production"}'
+
+  deploy-zeabur:
+    name: Deploy to Zeabur
+    if: github.event.inputs.platform == 'zeabur'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Zeabur CLI
+        run: npm i -g @zeabur/cli
+
+      - name: Deploy to Zeabur
+        run: |
+          zeabur deploy \
+            --project ${{ github.event.inputs.site_id }} \
+            --environment production \
+            --token ${{ github.event.inputs.api_token }}
+
+  deploy-firebase:
+    name: Deploy to Firebase Hosting
+    if: github.event.inputs.platform == 'firebase'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Download site artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: site
+          path: ./public
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Deploy to Firebase
+        run: firebase deploy --token "${{ github.event.inputs.api_token }}" --project "${{ github.event.inputs.site_id }}"
+
+  deploy-aws-amplify:
+    name: Deploy to AWS Amplify
+    if: github.event.inputs.platform == 'aws-amplify'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ github.event.inputs.aws_access_key_id }}
+          aws-secret-access-key: ${{ github.event.inputs.aws_secret_access_key }}
+          aws-region: ${{ github.event.inputs.aws_region }}
+
+      - name: Start Amplify deployment
+        run: |
+          aws amplify start-deployment \
+            --app-id ${{ github.event.inputs.site_id }} \
+            --branch-name main

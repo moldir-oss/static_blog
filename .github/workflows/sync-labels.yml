@@ -1,0 +1,40 @@
+name: Sync labels
+
+# Applies .github/repo-labels.yml to the repo (EndBug/label-sync).
+# Context: Dependabot silently ignores labels that do not exist in the repo.
+# Without `automerge`, Dependabot PRs arrive untagged and the Dependabot
+# Auto-Merge workflow stops merging them.
+# Run once (Actions tab > Run workflow), then on demand when labels change.
+# Extra labels on the repo are kept (delete-other-labels: false).
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: "Preview changes without applying them"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+
+permissions:
+  issues: write
+
+jobs:
+  labels:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          sparse-checkout: .github/repo-labels.yml
+
+      - name: Sync labels
+        uses: EndBug/label-sync@v2
+        with:
+          config-file: .github/repo-labels.yml
+          delete-other-labels: false
+          dry-run: ${{ github.event.inputs.dry-run == 'true' }}
+          token: ${{ secrets.GITHUB_TOKEN }}

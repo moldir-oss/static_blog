@@ -11,7 +11,7 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     env:
-      HUGO_VERSION: "0.164.0"
+      HUGO_VERSION: "0.165.0"
     steps:
       - name: Hardware specifications summary
         run: |
@@ -32,7 +32,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v7
         with:
-          go-version: '1.22'
+          go-version: '1.27'
           cache: true
 
       - name: Setup Hugo
@@ -51,7 +51,7 @@ jobs:
       - name: Validate hugo.toml
         run: |
           hugo config --environment production > /dev/null
-          echo "✅ hugo.toml valide"
+          echo "✅ hugo.toml valid"
 
       - name: Build check
         env:
@@ -59,21 +59,21 @@ jobs:
           HUGO_ENV: production
         run: |
           hugo --gc --minify
-          echo "✅ Build Hugo réussi"
+          echo "✅ Hugo build succeeded"
 
       - name: Check front matter
         run: |
           errors=0
           for file in $(find content -name "*.md"); do
             if ! head -1 "$file" | grep -q "^---"; then
-              echo "❌ Front matter manquant : $file"
+              echo "❌ Missing front matter: $file"
               errors=$((errors + 1))
             fi
           done
           if [ $errors -gt 0 ]; then
             exit 1
           fi
-          echo "✅ Front matter validé sur tous les articles"
+          echo "✅ Front matter validated on all posts"
 
       - name: Check for broken links (optional)
         if: false

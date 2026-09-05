@@ -1,11 +1,31 @@
 version: 2
 
 updates:
-  # Suivi des modules Go (via go.mod)
-  # Met à jour AUTOMATIQUEMENT :
-  #   - go 1.22 → 1.23 → 1.24... (version Go)
-  #   - github.com/adityatelange/hugo-PaperMod (thème)
-  #   - Toutes les dépendances indirectes (gohugoio/hugo, goldmark, etc.)
+  # npm updates (package.json / package-lock.json)
+  # Auto-updates: fuse.js, @vercel/kv, @netlify/blobs, archiver...
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "09:00"
+      timezone: "Europe/Paris"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "npm"
+      - "automerge"
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+
+  # Go modules tracking (via go.mod)
+  # Auto-updates:
+  #   - go 1.22 → 1.23 → 1.24... (Go version)
+  #   - github.com/adityatelange/hugo-PaperMod (theme)
+  #   - All indirect dependencies (gohugoio/hugo, goldmark, etc.)
   - package-ecosystem: "gomod"
     directory: "/"
     schedule:
@@ -13,10 +33,6 @@ updates:
       time: "09:00"
       timezone: "Europe/Paris"
     open-pull-requests-limit: 5
-    reviewers:
-      - "your-username"
-    assignees:
-      - "your-username"
     commit-message:
       prefix: "chore"
       include: "scope"
@@ -24,12 +40,12 @@ updates:
       - "dependencies"
       - "hugo-theme"
       - "automerge"
-    # Auto-merge si les checks passent
+    # Auto-merge when checks pass
     allow:
       - dependency-type: "direct"
       - dependency-type: "indirect"
 
-  # Surveillance des GitHub Actions
+  # GitHub Actions tracking
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -37,10 +53,6 @@ updates:
       time: "09:00"
       timezone: "Europe/Paris"
     open-pull-requests-limit: 10
-    reviewers:
-      - "your-username"
-    assignees:
-      - "your-username"
     commit-message:
       prefix: "ci"
       include: "scope"
@@ -52,9 +64,9 @@ updates:
       - dependency-type: "direct"
       - dependency-type: "indirect"
 
-  # Suivi de l'image Docker Hugo (Dockerfile.hugo)
-  # Dependabot détecte les nouveaux tags sur Docker Hub → PR
-  # Le workflow auto-merge propage la version dans hugo.yml, netlify.toml, wrangler.toml...
+  # Hugo Docker image tracking (Dockerfile.hugo)
+  # Dependabot detects new tags on Docker Hub → PR
+  # The auto-merge workflow propagates the version into hugo.yml, netlify.toml, wrangler.toml...
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
@@ -62,10 +74,6 @@ updates:
       time: "09:00"
       timezone: "Europe/Paris"
     open-pull-requests-limit: 5
-    reviewers:
-      - "your-username"
-    assignees:
-      - "your-username"
     commit-message:
       prefix: "ci"
       include: "scope"
