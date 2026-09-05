@@ -1,4 +1,4 @@
-/* Cusdis Custom Styles for PaperMod */
+
 .post-comments {
   margin-top: 3rem;
   padding: 1.5rem;
@@ -18,7 +18,7 @@
   color: var(--primary, #2c3e50);
 }
 
-/* Cusdis iframe styling */
+
 #cusdis_thread iframe {
   width: 100% !important;
   min-height: 300px;
@@ -26,7 +26,8 @@
   border-radius: 4px;
 }
 
-/* Dark mode support for Cusdis iframe */
+
 .dark #cusdis_thread iframe {
   color-scheme: dark;
 }
+
