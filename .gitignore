@@ -31,13 +31,17 @@ Thumbs.db
 
 # Node
 node_modules/
-package-lock.json
 npm-shrinkwrap.json
 
 # Environment
 .env
 .env.local
 .env.*.local
+
+# Local deploy configs (secrets — ne pas commiter, voir deploy-examples/)
+.deploy.local
+.deploy.*.local
+deploy-examples/*.local
 
 # IDE/Editor
 *.swp

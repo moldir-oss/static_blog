@@ -1,24 +1,42 @@
 {
   "name": "mon-licenciement-blog",
   "version": "1.0.0",
-  "description": "Blog statique Hugo documentant un parcours de licenciement",
+  "description": "Static Hugo blog documenting a dismissal case",
   "private": true,
   "scripts": {
-    "build": "hugo --gc --minify",
+    "build": "node scripts/build.mjs --target static",
+    "build:vercel": "node scripts/build.mjs --target vercel",
+    "build:netlify": "node scripts/build.mjs --target netlify",
+    "build:cloudflare": "node scripts/build.mjs --target cloudflare",
+    "build:github": "node scripts/build.mjs --target github",
+    "build:render": "node scripts/build.mjs --target render",
+    "build:static": "node scripts/build.mjs --target static",
     "build:preview": "hugo --gc --minify --buildDrafts --buildFuture",
     "dev": "hugo server -D --bind 0.0.0.0 --port 1313",
     "check": "hugo --gc --minify --printPathWarnings",
-    "fmt": "hugo mod fmt"
+    "fmt": "hugo mod fmt",
+    "comments:setup": "node scripts/setup-comments.mjs",
+    "ips:help": "node scripts/list-ips.mjs --help",
+    "seo:init": "node scripts/seo-submit.mjs --init",
+    "seo:submit": "node scripts/seo-submit.mjs",
+    "seo:help": "node scripts/seo-submit.mjs --help",
+    "package": "node scripts/package.mjs",
+    "package:deploy": "node scripts/package.mjs --deploy"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0",
+    "npm": ">=11.0.0"
   },
   "volta": {
-    "node": "20.18.0"
+    "node": "24.20.0"
   },
-  "packageManager": "npm@10.8.2",
-  "dependencies": {},
-  "devDependencies": {},
+  "packageManager": "npm@12.0.2",
+  "dependencies": {
+    "@netlify/blobs": "8.2.0",
+    "@vercel/kv": "3.0.0",
+    "archiver": "^8.0.0",
+    "fuse.js": "7.5.0"
+  },
   "keywords": [
     "hugo",
     "blog",

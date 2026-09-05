@@ -1,18 +1,18 @@
 @echo off
 REM Quick start script for Windows
 
-echo Demarrage du blog Mon Licenciement
+echo Starting the Mon Licenciement blog
 
 where hugo >nul 2>nul
 if %errorlevel% neq 0 (
-    echo Hugo n'est pas installe. Installez-le : https://gohugo.io/installation/
+    echo Hugo is not installed. Install it: https://gohugo.io/installation/
     exit /b 1
 )
 
-echo Telechargement du theme PaperMod...
+echo Downloading the PaperMod theme...
 hugo mod get -u
 
-echo Lancement du serveur...
-echo Ouvrez http://localhost:1313 dans votre navigateur
+echo Starting the server...
+echo Open http://localhost:1313 in your browser
 echo.
 hugo server -D

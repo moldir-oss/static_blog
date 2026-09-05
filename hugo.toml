@@ -1,7 +1,7 @@
 baseURL = "https://moldir-oss.github.io/static_blog/"
 defaultContentLanguage = "fr"
 title = "Dossier Licenciement"
-theme = "github.com/adityatelange/hugo-PaperMod"
+theme = "PaperMod"
 
 copyright = "© 2026 - Tous droits réservés"
 
@@ -16,7 +16,6 @@ buildExpired = false
 enableEmoji = true
 pygmentsUseClasses = true
 
-# Multilingue : Français par défaut, Anglais prêt
 [languages]
   [languages.fr]
     locale = "fr-fr"
@@ -55,8 +54,14 @@ pygmentsUseClasses = true
       name = "Tags"
       url = "/tags"
       weight = 50
+    [[languages.fr.menu.main]]
+      identifier = "fr-contact"
+      name = "Contact"
+      url = "/contact"
+      weight = 60
   [languages.en]
     locale = "en-us"
+    contentDir = "content.en"
     label = "English"
     weight = 2
     title = "Dismissal Case File"
@@ -90,6 +95,11 @@ pygmentsUseClasses = true
       name = "Tags"
       url = "/tags"
       weight = 50
+    [[languages.en.menu.main]]
+      identifier = "en-contact"
+      name = "Contact"
+      url = "/contact"
+      weight = 60
 
   [languages.en.params]
     languageAltTitle = "English"
@@ -101,9 +111,9 @@ pygmentsUseClasses = true
       enabled = true
       title = "The Dismissal Case File"
       subtitle = "All the documents, steps and the complete timeline — from the warning to the court decision."
-      imageUrl = "/images/cover.jpg"
-      imageWidth = 120
-      imageHeight = 120
+      imageUrl = "images/cover.svg"
+      imageWidth = 140
+      imageHeight = 140
       imageTitle = "Dismissal Case File"
       [[languages.en.params.profileMode.buttons]]
         name = "Read the articles"
@@ -114,10 +124,9 @@ pygmentsUseClasses = true
 
 [params]
   env = "production"
-  description = "Retour complet sur un cas de licenciement, de l'avertissement à la décision de justice."
+  description = "Retour complet sur un cas de licenciement effectué par Nexteer Automotive, de l'avertissement à la décision de justice."
   author = "Rédaction"
 
-  # PaperMod settings
   ShowLanguageSelector = true
   defaultTheme = "auto"
   ShowReadingTime = true
@@ -136,13 +145,9 @@ pygmentsUseClasses = true
   showtoc = true
   tocopen = true
 
-  # Cusdis Comments — une seule plateforme de commentaires partagée par tous les déploiements
-  # (netlify, vercel, cloudflare, github-pages). Renseignez cusdisAppId une fois ;
-  # cusdisHost pointe vers votre instance Cusdis (publique ou auto-hébergée).
   cusdisHost = "https://cusdis.com"
   cusdisAppId = ""
 
-  # SEO
   [params.assets]
     favicon = "/favicon.ico"
     favicon16x16 = "/favicon-16x16.png"
@@ -152,17 +157,16 @@ pygmentsUseClasses = true
 
   [params.label]
     text = "Dossier Licenciement"
-    icon = "/apple-touch-icon.png"
+    icon = "images/cover.svg"
     iconHeight = 35
 
-  # Profile mode (page d'accueil)
   [params.profileMode]
     enabled = true
     title = "Le dossier de licenciement"
     subtitle = "Tous les documents, étapes et la chronologie complète — de l'avertissement à la décision de justice."
-    imageUrl = "/images/cover.jpg"
-    imageWidth = 120
-    imageHeight = 120
+    imageUrl = "images/cover.svg"
+    imageWidth = 140
+    imageHeight = 140
     imageTitle = "Dossier Licenciement"
     [[params.profileMode.buttons]]
       name = "Lire les articles"
@@ -171,7 +175,6 @@ pygmentsUseClasses = true
       name = "Voir la chronologie"
       url = "/chronologie"
 
-  # Search
   [params.fuseOpts]
     isCaseSensitive = false
     shouldSort = true
@@ -181,24 +184,42 @@ pygmentsUseClasses = true
     minMatchCharLength = 0
     keys = ["title", "permalink", "summary", "content"]
 
-  # Analytics (décommentez si besoin)
-  # googleAnalytics = "G-XXXXXXXXXX"
 
-  # GoatCounter — analytics respectueuses de la vie privée (gratuit, sans cookie)
-  # Renseignez votre code (ex: monblog) ; laissez vide pour désactiver
   goatcounterCode = ""
 
-# Search page outputs
-[outputs]
-  home = ["HTML", "RSS", "JSON"]
+  [params.visits]
+    # Single canonical backend (Worker+D1). Empty = same-origin /api/visit fallback.
+    # CI override: HUGO_VISIT_API_URL="https://mon-licenciement-visits.<account>.workers.dev/api/visit"
+    apiUrl = ""
 
-# Taxonomies
+  [params.employer]
+    name = "Nexteer Automotive"
+    logo = "images/nexteer-logo.png"
+    website = "https://www.nexteer.com"
+
+  [params.giscus]
+    repo = ""
+    repoId = ""
+    category = ""
+    categoryId = ""
+    mapping = "pathname"
+    strict = "0"
+    reactionsEnabled = "1"
+    inputPosition = "bottom"
+    theme = "preferred_color_scheme"
+
+[security]
+  [security.funcs]
+    getenv = ['^HUGO_', '^CI$', '^GISCUS_', '^CUSDIS_']
+
+[outputs]
+  home = ["HTML", "RSS", "JSON", "ROBOTS"]
+
 [taxonomies]
   category = "categories"
   tag = "tags"
   series = "series"
 
-# Markup
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
@@ -212,4 +233,5 @@ pygmentsUseClasses = true
     guessSyntax = true
     lineNos = true
     style = "monokai"
+
 

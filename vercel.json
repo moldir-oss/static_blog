@@ -1,10 +1,10 @@
 {
   "name": "mon-licenciement-blog",
   "version": 2,
-  "buildCommand": "hugo --gc --minify",
+  "buildCommand": "node scripts/build.mjs --target vercel",
   "outputDirectory": "public",
   "framework": null,
-  "installCommand": "",
+  "installCommand": "npm ci",
   "functions": {
     "api/**/*.go": {
       "memory": 128

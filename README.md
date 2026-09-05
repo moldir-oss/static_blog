@@ -58,9 +58,9 @@ Blog statique généré avec [Hugo](https://gohugo.io/) et le thème [PaperMod](
 
 ## 🛠️ Prérequis
 
-- [Hugo Extended](https://gohugo.io/installation/) ≥ v0.164.0
+- [Hugo Extended](https://gohugo.io/installation/) ≥ v0.165.0
 - Git
-- Node.js ≥ 20 (optionnel, pour Netlify/Cloudflare)
+- Node.js ≥ 22 (optionnel, pour Netlify/Cloudflare)
 
 ## 📦 Installation
 
@@ -240,9 +240,8 @@ wrangler pages deploy ./public --project-name=mon-licenciement-blog
 
 **Via Git :**
 1. Importer le repo sur [Vercel](https://vercel.com)
-2. Framework : Other
-3. Build command : `hugo --gc --minify`
-4. Output directory : `public`
+2. `vercel.json` fait tout : téléchargement de Hugo 0.165.0, build (`npm ci` + `hugo --gc --minify`), sortie `public`
+3. Mesure d'audience privée et silencieuse : créer une base **KV** (Storage) et la lier au projet (`KV_REST_API_URL` / `KV_REST_API_TOKEN`) ; la fonction `api/visit.js` collecte seule, sans rien afficher (consultation via le dashboard, voir `IPS.md`)
 
 **Secrets GitHub Actions :**
 - `VERCEL_TOKEN` : Vercel Access Token
