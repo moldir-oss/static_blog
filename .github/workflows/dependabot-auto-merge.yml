@@ -1,8 +1,8 @@
 name: Dependabot Auto-Merge
 
-# Merges all Dependabot PRs (minor/patch) via the repo's native auto-merge
+# Merges all Dependabot PRs via the repo's native auto-merge
 # feature. No labels used — assumes "Allow auto-merge" is enabled in the
-# repo settings. Major updates stay open for manual review.
+# repo settings. All update types (including major) are merged once CI passes.
 
 on:
   pull_request:
@@ -48,13 +48,8 @@ jobs:
           git diff --cached --quiet || git commit -m "ci: propagate Hugo $HUGO_VER"
           git push
 
-      - name: Enable auto-merge when CI passes (minor/patch only)
-        if: steps.metadata.outputs.update-type != 'version-update:semver-major'
+      - name: Enable auto-merge when CI passes
         run: gh pr merge --auto --merge "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Major update detected — manual review required
-        if: steps.metadata.outputs.update-type == 'version-update:semver-major'
-        run: echo "::warning::Major update (${{ steps.metadata.outputs.dependency-names }}) — auto-merge skipped, manual review required."
