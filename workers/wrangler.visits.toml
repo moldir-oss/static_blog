@@ -1,0 +1,25 @@
+# Single visits/IP backend — site-independent deploy (free, all platforms).
+# Usage:
+#   1. npx wrangler d1 create visits
+#   2. paste the database_id below (replace REPLACE_ME)
+#   3. npx wrangler d1 execute visits --remote --file workers/schema.sql
+#   4. npx wrangler deploy -c workers/wrangler.visits.toml
+#   5. copy the Worker URL into hugo.toml [params.visits] apiUrl
+#      and/or HUGO_VISIT_API_URL (e.g. https://mon-licenciement-visits.<account>.workers.dev/api/visit)
+# Read: see workers/README.md and npm run ips:help
+
+name = "mon-licenciement-visits"
+main = "visits-worker.js"
+compatibility_date = "2024-01-01"
+
+[[d1_databases]]
+binding = "VISITS_DB"
+database_name = "visits"
+database_id = "REPLACE_ME"
+
+[vars]
+ANONYMIZE_IP = "0"
+ALLOWED_ORIGINS = "*"
+
+[triggers]
+crons = ["0 3 * * *"]

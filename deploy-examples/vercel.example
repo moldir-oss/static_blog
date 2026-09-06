@@ -1,0 +1,38 @@
+# === Vercel example — local config, DO NOT COMMIT with your values ===
+# Usage:
+#   cp deploy-examples/vercel.example .deploy.local   (then fill in the URL below)
+#   npm run package                                    (build + ZIP)
+#
+# Notes:
+# - Normal deploy: import the repo on vercel.com (vercel.json already
+#   runs the build). Vercel does NOT accept ZIPs: the ZIP is only an archive
+#   or for a generic host.
+# - IP counter: single Worker+D1 backend recommended (see IPS.md) —
+#   fill in HUGO_VISIT_API_URL below. Without it, deprecated Vercel KV
+#   fallback (Storage > Create Database > KV linked to the project).
+# - VERCEL_TOKEN: only useful for the Vercel CLI/API, not for the ZIP.
+
+# Target platform (do not change in this file)
+TARGET=vercel
+
+# Final public URL — REQUIRED (Vercel domain or custom domain):
+# https://mon-site.vercel.app  |  https://www.mon-domaine.fr
+SITE_URL=https://mon-site.vercel.app
+
+# --- Single visits/IP backend (optional, see IPS.md) ---
+# HUGO_VISIT_API_URL=https://mon-licenciement-visits.<account>.workers.dev/api/visit
+
+# --- SEO: verification + IndexNow (optional, see DEPLOY.md SEO section) ---
+# HUGO_GOOGLE_SITE_VERIFICATION=
+# HUGO_BING_SITE_VERIFICATION=
+# INDEXNOW_KEY= (generate via npm run seo:init)
+
+# --- Giscus comments (optional, see COMMENTAIRES.md) ---
+# Uncomment and fill in the 4 values copied from https://giscus.app
+# GISCUS_REPO=USER/REPO
+# GISCUS_REPO_ID=R_xxx
+# GISCUS_CATEGORY=Announcements
+# GISCUS_CATEGORY_ID=DIC_xxx
+
+# --- API token (optional, Vercel CLI only) ---
+# VERCEL_TOKEN=

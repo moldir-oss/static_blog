@@ -1,0 +1,43 @@
+# === Cloudflare Pages example — local config, DO NOT COMMIT with your values ===
+# Usage:
+#   cp deploy-examples/cloudflare.example .deploy.local   (then fill in below)
+#   npm run package                                        (build + ZIP)
+#   npm run package:deploy                                 (build + ZIP + auto-upload, tokens required)
+#
+# Notes:
+# - Normal deploy: Cloudflare dashboard > Pages > Connect to Git
+#   (build: node scripts/build.mjs --target cloudflare, output: public).
+# - Manual upload: Pages > project > Upload assets.
+# - IP counter (single Worker+D1 backend, see IPS.md + workers/README.md):
+#   `npx wrangler d1 create visits`, paste database_id into
+#   workers/wrangler.visits.toml AND wrangler.toml, migrate workers/schema.sql,
+#   deploy the Worker, then fill in HUGO_VISIT_API_URL below.
+
+# Target platform (do not change in this file)
+TARGET=cloudflare
+
+# Final public URL — REQUIRED:
+# https://mon-site.pages.dev  |  https://www.mon-domaine.fr
+SITE_URL=https://mon-site.pages.dev
+
+# --- Single visits/IP backend (optional, see IPS.md) ---
+# HUGO_VISIT_API_URL=https://mon-licenciement-visits.<account>.workers.dev/api/visit
+
+# --- SEO: verification + IndexNow (optional, see DEPLOY.md SEO section) ---
+# HUGO_GOOGLE_SITE_VERIFICATION=
+# HUGO_BING_SITE_VERIFICATION=
+# INDEXNOW_KEY= (generate via npm run seo:init)
+
+# --- Giscus comments (optional, see COMMENTAIRES.md) ---
+# Uncomment and fill in the 4 values copied from https://giscus.app
+# GISCUS_REPO=USER/REPO
+# GISCUS_REPO_ID=R_xxx
+# GISCUS_CATEGORY=Announcements
+# GISCUS_CATEGORY_ID=DIC_xxx
+
+# --- API tokens (required ONLY for `npm run package:deploy`) ---
+# My Profile > API Tokens (Pages template) ; Account ID: dashboard, right column
+# Pages project name as shown in the dashboard.
+# CLOUDFLARE_API_TOKEN=
+# CLOUDFLARE_ACCOUNT_ID=
+# CF_PROJECT=mon-site

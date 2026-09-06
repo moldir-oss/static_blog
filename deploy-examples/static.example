@@ -1,0 +1,29 @@
+# === Classic host example (cPanel, O2Switch, VPS, S3...) — DO NOT COMMIT ===
+# Usage:
+#   cp deploy-examples/static.example .deploy.local   (then fill in the URL below)
+#   npm run package                                    (build + ZIP)
+# Then: upload the ZIP to the web root and extract it (or send the
+# public/ contents via FTP/rsync/s3 sync). IP counter possible ONLY
+# via the single backend (HUGO_VISIT_API_URL, see IPS.md).
+
+# Target platform (do not change in this file)
+TARGET=static
+
+# Final public URL — REQUIRED (domain or subdomain):
+# https://mon-blog.fr  |  https://blog.mon-domaine.fr
+SITE_URL=https://example.com
+
+# --- Single visits/IP backend (optional, see IPS.md) ---
+# HUGO_VISIT_API_URL=https://mon-licenciement-visits.<account>.workers.dev/api/visit
+
+# --- SEO: verification + IndexNow (optional, see DEPLOY.md SEO section) ---
+# HUGO_GOOGLE_SITE_VERIFICATION=
+# HUGO_BING_SITE_VERIFICATION=
+# INDEXNOW_KEY= (generate via npm run seo:init)
+
+# --- Giscus comments (optional, see COMMENTAIRES.md) ---
+# Uncomment and fill in the 4 values copied from https://giscus.app
+# GISCUS_REPO=USER/REPO
+# GISCUS_REPO_ID=R_xxx
+# GISCUS_CATEGORY=Announcements
+# GISCUS_CATEGORY_ID=DIC_xxx

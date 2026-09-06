@@ -16,7 +16,6 @@ updates:
     labels:
       - "dependencies"
       - "npm"
-      - "automerge"
     allow:
       - dependency-type: "direct"
       - dependency-type: "indirect"
@@ -39,7 +38,6 @@ updates:
     labels:
       - "dependencies"
       - "hugo-theme"
-      - "automerge"
     # Auto-merge when checks pass
     allow:
       - dependency-type: "direct"
@@ -59,7 +57,6 @@ updates:
     labels:
       - "dependencies"
       - "github-actions"
-      - "automerge"
     allow:
       - dependency-type: "direct"
       - dependency-type: "indirect"
@@ -80,6 +77,5 @@ updates:
     labels:
       - "dependencies"
       - "hugo"
-      - "automerge"
     allow:
       - dependency-type: "direct"

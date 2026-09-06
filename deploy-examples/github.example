@@ -1,0 +1,32 @@
+# === GitHub Pages example — local config, DO NOT COMMIT with your values ===
+# Usage:
+#   cp deploy-examples/github.example .deploy.local   (then fill in USER/REPO below)
+#   npm run package                                    (backup ZIP)
+#
+# Note: GitHub Pages deploys by pushing to `main`
+# (workflow .github/workflows/hugo.yml). The ZIP is only an archive:
+# use `git push`, no ZIP upload. IP counter possible ONLY
+# via the single backend (HUGO_VISIT_API_URL to the Worker+D1, see IPS.md);
+# without it, no measurement (silent).
+
+# Target platform (do not change in this file)
+TARGET=github
+
+# Public URL — REQUIRED, with the repo subpath:
+# https://USER.github.io/REPO/
+SITE_URL=https://USER.github.io/REPO/
+
+# --- Single visits/IP backend (optional, see IPS.md) ---
+# HUGO_VISIT_API_URL=https://mon-licenciement-visits.<account>.workers.dev/api/visit
+
+# --- SEO: verification + IndexNow (optional, see DEPLOY.md SEO section) ---
+# HUGO_GOOGLE_SITE_VERIFICATION=
+# HUGO_BING_SITE_VERIFICATION=
+# INDEXNOW_KEY= (generate via npm run seo:init)
+
+# --- Giscus comments (optional, see COMMENTAIRES.md) ---
+# Uncomment and fill in the 4 values copied from https://giscus.app
+# GISCUS_REPO=USER/REPO-commentaires
+# GISCUS_REPO_ID=R_xxx
+# GISCUS_CATEGORY=Announcements
+# GISCUS_CATEGORY_ID=DIC_xxx

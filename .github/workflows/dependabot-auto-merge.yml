@@ -1,15 +1,14 @@
 name: Dependabot Auto-Merge
 
-# Only merges Dependabot PRs carrying the `automerge` label
-# (set by Dependabot via dependabot.yml) AND that are not major updates.
-# Major updates stay open for manual review.
+# Merges all Dependabot PRs (minor/patch) via the repo's native auto-merge
+# feature. No labels used — assumes "Allow auto-merge" is enabled in the
+# repo settings. Major updates stay open for manual review.
 
 on:
   pull_request:
     types:
-      - labeled
-      - synchronize
       - opened
+      - synchronize
       - reopened
 
 permissions:
@@ -19,7 +18,7 @@ permissions:
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'automerge')
+    if: github.actor == 'dependabot[bot]'
     steps:
       - uses: actions/checkout@v7
         with:
